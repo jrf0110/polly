@@ -1,0 +1,17 @@
+var router = module.exports = require('express').Router();
+var m = require('../middleware');
+
+router.get('/polls'
+, m.logger.info('pagination')
+, m.db.pagination()
+, m.logger.info('find')
+, m.db.polls.find()
+, m.logger.info('json')
+, m.json('polls')
+);
+
+router.get('/polls/:id'
+, m.db.where({ id: m.value('req.params.id') })
+, m.db.polls.findOne()
+, m.json('poll')
+);
