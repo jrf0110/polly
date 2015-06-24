@@ -10,7 +10,7 @@ module.exports = function( options ){
       result = res.locals[ options ];
     }
 
-    if ( options.isMValue ){
+    if ( options.__isMValue ){
       result = options( req, res );
     }
 

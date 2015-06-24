@@ -17,8 +17,7 @@ describe('Server', function(){
   it('GET /api/polls/:id', function( done ){
     utils.http.get( config.http.baseUrl() + '/api/polls/1' )
       .end( function( error, res ){
-        assert( !error );
-        assert( res.body.length > 0 );
+        assert( !error, error ? JSON.stringify( error, true, '  ' ) : null );
         assert.equal( res.body.id, 1 );
         assert.equal( res.body.title, 'Test Poll 1' );
         done();

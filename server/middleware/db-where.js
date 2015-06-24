@@ -17,15 +17,7 @@ var utils       = require('../../lib/utils');
 
 module.exports = function( clause ){
   return function( req, res, next ){
-    var calculatedClause = utils.cloneDeep( clause );
-
-    utils.deepForIn( calculatedClause, function( k, v, obj ){
-      if ( !v.isMValue ) return;
-      obj[ k ] = obj[ k ]( req, res );
-    });
-
-    deepExtend( req.dbQuery.where, calculatedClause );
-
+    deepExtend( req.dbQuery.where, clause );
     return next();
   };
 };

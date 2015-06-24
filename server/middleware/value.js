@@ -17,10 +17,27 @@
 
 var dotty = require('dotty');
 
-module.exports = function( str ){
+var coercions = {
+  number: function( v ){
+    return +v;
+  }
+
+, string: function( v ){
+    return '' + v;
+  }
+};
+
+module.exports = function( str, coercion ){
   var mvalue = function( req, res ){
-    var obj = { req: res, res: res };
-    return dotty.get( obj, str );
+    var obj = { req: req, res: res };
+    var value = dotty.get( obj, str );
+
+    if ( typeof coercion === 'string' )
+    if ( coercion in coercions ){
+      value = coercions[ coercion ]( value );
+    }
+
+    return value;
   };
 
   mvalue.__isMValue = true;

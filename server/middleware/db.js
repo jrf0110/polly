@@ -26,6 +26,7 @@ var dirac = require('dirac');
 var pluralize = require('pluralize');
 var deepExtend = require('deep-extend');
 var db = require('../../db');
+var utils = require('../../lib/utils');
 
 var supportedMethods = [
   'find', 'findOne', 'insert', 'update', 'remove'
@@ -37,20 +38,36 @@ var getMiddlewareFn = function( table, method ){
   var isSingular = ['findOne', 'insert'].indexOf( method ) > - 1;
 
   return function(){
-    var args = Array.prototype.slice.call( arguments );
+    var originalArgs = arguments;
 
     return function( req, res, next ){
+      var args = [];
       var arity = method === 'update' ? 3 : 2;
 
-      if ( args.length < arity ){
-        args[ arity - 1 ] = req.dbQuery;
-      } else {
-        args[ arity - 1 ] = deepExtend( req.dbOptions, args[ arity - 1 ] );
+      if ( ['find', 'findOne'].indexOf( method ) > -1 ){
+        args.push( req.dbQuery.where );
+      } else if ( method === 'insert' ){
+        args.push( req.dbQuery.values );
+      } else if ( method === 'update' ){
+        args.push( req.dbQuery.where );
+        args.push( req.dbQuery.updates );
       }
 
-      for ( var i = 0; i < args.length; i++ ){
-        args[ i ] = args[ i ] === undefined ? {} : args[ i ];
-      }
+      args.push( req.dbQuery );
+
+      args = args.map( function( arg ){
+        if ( arg.__isMValue ){
+          return arg( req, res );
+        }
+
+        return arg;
+      });
+
+      utils.deepForIn( req.dbQuery, function( key, val, obj ){
+        if ( val.__isMValue ){
+          obj[ key ] = val( req, res );
+        }
+      });
 
       db[ table ][ method ].apply( db[ table ], args.concat( function( error, results ){
         if ( error ) return next( error );
@@ -81,4 +98,9 @@ module.exports.init = function( options ){
 
     return next();
   };
+};
+
+module.exports.query = function( queryComponent ){
+  deepExtend( req.dbQuery, queryComponent );
+  return next();
 };

@@ -14,7 +14,7 @@ module.exports = function( options ){
 
     return function( req, res, next ){
       args.forEach( function( arg, i ){
-        if ( arg.isMValue ){
+        if ( arg.__isMValue ){
           args[ i ] = arg( req, res );
         }
       });
