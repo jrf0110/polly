@@ -1,7 +1,7 @@
 var db    = require('../../db');
 var utils = require('../../lib/utils');
 
-module.exports = stampit()
+module.exports = require('stampit')()
   .compose( require('./') )
   .methods({
     fetch: function( callback ){
@@ -17,9 +17,58 @@ module.exports = stampit()
     }
 
   , save: function( callback ){
-      var where = this.getWhereClause();
+      if ( this.id ){
+        this.saveExisting( callback );
+      } else {
+        this.saveNew( callback );
+      }
 
-      db.polls.update( this, where, callback );
+      return this;
+    }
+
+  , saveNew: function( callback ){
+      var tx = db.dirac.tx.create();
+
+      tx.begin( function( error ){
+        if ( error ){
+          tx.rollback();
+          return callback( error );
+        }
+
+        tx.polls.insert( this, function( error, results ){
+          if ( error ) return callback( error );
+
+          tx.commit( function( error ){
+            if ( error ){
+              return callback( error );
+            }
+
+            utils.extend( this, results[0] );
+            console.log('extending with ', results[0], this);
+
+            return callback( error, this );
+          }.bind( this ));
+        }.bind( this ));
+      }.bind( this ));
+    }
+
+  , saveExisting: function( callback ){
+      var tx = db.dirac.tx.create();
+
+      tx.begin( function( error ){
+        if ( error ){
+          tx.rollback();
+          return callback( error );
+        }
+
+        tx.polls.update( this.getWhereClause(), this, { returning: ['*'] }, function( error, results ){
+          if ( error ) return callback( error );
+
+          tx.commit( function( error ){
+            return callback( error, results );
+          });
+        }.bind( this ));
+      }.bind( this ));
     }
 
   , getWhereClause: function(){

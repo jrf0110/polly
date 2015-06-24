@@ -12,6 +12,9 @@ var server  = require('../server')({
               });
 
 before(function( done ){
+  console.log('!! Destroy test database !!');
+  console.log('   Ensure all clients have disconnected');
+
   utils.async.series(
     [ gulp.start.bind( gulp, 'destroy-database' )
     , gulp.start.bind( gulp, 'setup-db' )
