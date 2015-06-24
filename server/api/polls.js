@@ -9,7 +9,6 @@ router.get('/polls'
 
 router.get('/polls/:id'
 , m.db.where({ id: m.value('req.params.id', 'number') })
-, m.logger.info( 'Looking up poll', m.value('req.params.id') )
 , m.db.polls.findOne()
 , m.json('poll')
 );

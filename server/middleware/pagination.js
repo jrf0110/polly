@@ -12,8 +12,8 @@ module.exports = function( options ){
     var offset  = req.query[ options.offsetField ];
     var limit   = req.query[ options.limitField ];
 
-    req.dbQuery.offset = offset !== undefined ? offset : options.defaultOffset;
-    req.dbQuery.limit = limit !== undefined ? limit : options.defaultLimit;
+    req.dbQuery.offset = offset !== undefined ? +offset : options.defaultOffset;
+    req.dbQuery.limit = limit !== undefined ? +limit : options.defaultLimit;
 
     return next();
   };

@@ -14,6 +14,17 @@ describe('Server', function(){
       });
   });
 
+  it('GET /api/polls?limit=2&offset=2', function( done ){
+    utils.http.get( config.http.baseUrl() + '/api/polls' )
+      .query({ limit: 2, offset: 2 })
+      .end( function( error, res ){
+        assert( !error, error );
+        assert.equal( res.body.length, 1 );
+        assert.equal( res.body[0].id, 3 );
+        done();
+      });
+  });
+
   it('GET /api/polls/:id', function( done ){
     utils.http.get( config.http.baseUrl() + '/api/polls/1' )
       .end( function( error, res ){
