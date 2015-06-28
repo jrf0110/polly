@@ -37,12 +37,30 @@ describe('Server', function(){
 
   it('POST /api/polls', function( done ){
     utils.http.post( config.http.baseUrl() + '/api/polls' )
+      .send({
+        title: 'Test Poll'
+      , choices: [{ title: 'Choice 1' }, { title: 'Choice 2' }]
+      })
+      .end( function( error, res ){
+        assert( !error, error ? error.message : JSON.stringify( error, true, '  ' ) );
+        assert.equal( res.body.id, 4 );
+        assert.equal( res.body.title, 'Test Poll' );
+        assert.equal( res.body.choices.length, 2 );
+        done();
+      });
+  });
+
+  it('PUT /api/polls/:id', function( done ){
+    utils.http.post( config.http.baseUrl() + '/api/polls' )
       .send({ title: 'Test Poll' })
       .end( function( error, res ){
         assert( !error, error ? error.message : JSON.stringify( error, true, '  ' ) );
-        console.log( 'body', res.body);
-        assert.equal( res.body.id, 4 );
-        assert.equal( res.body.title, 'Test Poll' );
+
+        var poll = res.body;
+
+        assert.equal( res.body.id, 5 );
+        
+
         done();
       });
   });

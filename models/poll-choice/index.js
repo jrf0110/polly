@@ -1,8 +1,6 @@
 module.exports = require('stampit')()
   .state({
-    title:    null
-  , choices:  []
+
   })
   .compose( require('../../lib/stampit-validation') )
-  .compose( require('./default-options') )
   .compose( require('./validators') );

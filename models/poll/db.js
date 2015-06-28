@@ -16,17 +16,24 @@ module.exports = require('stampit')()
       });
     }
 
-  , save: function( callback ){
+  , save: function( data, callback ){
       if ( this.id ){
-        this.saveExisting( callback );
+        this.saveExisting( data, callback );
       } else {
-        this.saveNew( callback );
+        this.saveNew( data, callback );
       }
 
       return this;
     }
 
-  , saveNew: function( callback ){
+  , saveNew: function( data, callback ){
+      if ( typeof data === 'function' ){
+        callback = data;
+        data = null;
+      }
+
+      utils.extend( this, data );
+
       var tx = db.dirac.tx.create();
 
       tx.begin( function( error ){
@@ -44,7 +51,6 @@ module.exports = require('stampit')()
             }
 
             utils.extend( this, results[0] );
-            console.log('extending with ', results[0], this);
 
             return callback( error, this );
           }.bind( this ));
@@ -52,7 +58,14 @@ module.exports = require('stampit')()
       }.bind( this ));
     }
 
-  , saveExisting: function( callback ){
+  , saveExisting: function( data, callback ){
+      if ( typeof data === 'function' ){
+        callback = data;
+        data = null;
+      }
+
+      data = data || this;
+
       var tx = db.dirac.tx.create();
 
       tx.begin( function( error ){
@@ -61,10 +74,12 @@ module.exports = require('stampit')()
           return callback( error );
         }
 
-        tx.polls.update( this.getWhereClause(), this, { returning: ['*'] }, function( error, results ){
+        tx.polls.update( this.getWhereClause(), data, { returning: ['*'] }, function( error, results ){
           if ( error ) return callback( error );
 
           tx.commit( function( error ){
+            utils.extend( this, results[0] );
+
             return callback( error, results );
           });
         }.bind( this ));
@@ -83,6 +98,10 @@ module.exports = require('stampit')()
       }
 
       return where;
+    }
+
+  , remove: function( callback ){
+      db.polls.remove( this.getWhereClause(), callback );
     }
   });
 
