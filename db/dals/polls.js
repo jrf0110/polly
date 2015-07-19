@@ -10,10 +10,13 @@ module.exports = {
   }
 
 , defaultQueryOptions: {
-    many: [ { table: 'poll_choices', alias: 'choices' }
-          , { table: 'poll_responses', alias: 'responses'
+    one:  [ { table: 'poll_stats', alias: 'stats' }
+          ]
+
+  , many: [ { table: 'poll_choices', alias: 'choices' }
+          , /*{ table: 'poll_responses', alias: 'responses'
             , mixin: [{ table: 'poll_choices' }]
-            }
+            }*/
           ]
   }
 };

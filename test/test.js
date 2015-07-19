@@ -1,4 +1,4 @@
-require('babel/register');
+// require('babel/register');
 
 process.env.NODE_ENV = 'test';
 
@@ -16,8 +16,8 @@ before(function( done ){
   console.log('   Ensure all clients have disconnected');
 
   utils.async.series(
-    [ gulp.start.bind( gulp, 'destroy-database' )
-    , gulp.start.bind( gulp, 'setup-db' )
+    [ gulp.start.bind( gulp, 'db:destroy' )
+    , gulp.start.bind( gulp, 'db:setup' )
     , server.listen.bind( server, config.http.port )
     ]
   , done
@@ -25,4 +25,6 @@ before(function( done ){
 });
 
 require('./unit/config');
+require('./unit/models');
+require('./unit/db');
 require('./unit/server');

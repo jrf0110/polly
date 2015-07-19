@@ -6,6 +6,7 @@ module.exports = {
 , value:      require('./value')
 , error:      require('./error')
 , logger:     require('./logger')
+, hydrate:    require('./hydrate')
 };
 
 utils.extend( module.exports.db, {

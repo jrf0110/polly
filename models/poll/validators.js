@@ -4,9 +4,9 @@ var Choice = require('../poll-choice');
 
 module.exports = require('stampit')()
   .enclose(function(){
-     this.validators.push( titleRequired );
-     this.validators.push( minPollChoices );
-     this.validators.push( validChoices );
+     this.addValidator( titleRequired );
+     this.addValidator( minPollChoices );
+     this.addValidator( validChoices );
   });
 
 function titleRequired(){
@@ -27,7 +27,13 @@ function minPollChoices(){
 
 function validChoices(){
   return this.choices
-    .map( Choice.create )
+    .map( function( choice ){
+      if ( typeof choice.validate !== 'function' ){
+        return Choice.create( choice );
+      }
+
+      return choice;
+    })
     .map( function( choice ){
       return choice.validate();
     })

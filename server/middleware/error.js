@@ -1,4 +1,4 @@
-var errors = require('../');
+var errors = require('../../lib/errors');
 
 module.exports = function( options ){
   return function( error, req, res, next ){
@@ -7,7 +7,7 @@ module.exports = function( options ){
     if ( !error.httpStatus ){
       error = errors.http.INTERNAL_SERVER_ERROR( null, error );
     }
-    
+
     res.status( error.httpStatus );
 
     if ( req.headers['Content-Type'] === 'application/json' ){

@@ -66,4 +66,40 @@ describe('Models', function(){
       assert.equal( errors[0].name, 'INVALID_INPUT' );
     });
   });
+
+  describe('PollResponse', function(){
+    var PollResponse = require('../../models/poll-response/db');
+
+    it('.validatePollRestrictions( callback ) should be valid', function( done ){
+      PollResponse({
+        poll_choice_id: 2
+      , session_id: '1'
+      }).validatePollRestrictions( function( error ){
+        assert( !error );
+        done();
+      });
+    });
+
+    it('.validatePollRestrictions( callback ) should be invalid because voted_same_thing_twice', function( done ){
+      PollResponse({
+        poll_choice_id: 1
+      , session_id: '1'
+      }).validatePollRestrictions( function( error, result ){
+        assert( error );
+        assert.equal( error.name, 'VOTED_SAME_THING_TWICE' );
+        done();
+      });
+    });
+
+    it.skip('.validatePollRestrictions( callback ) should be invalid because session_vote_count_exceeds_allotment', function( done ){
+      PollResponse({
+        poll_choice_id: 1
+      , session_id: '1'
+      }).validatePollRestrictions( function( error, result ){
+        assert( error );
+        assert.equal( error.name, 'SESSION_VOTE_COUNT_EXCEEDS_ALLOTMENT' );
+        done();
+      });
+    });
+  });
 });

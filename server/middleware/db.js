@@ -27,6 +27,7 @@ var pluralize = require('pluralize');
 var deepExtend = require('deep-extend');
 var db = require('../../db');
 var utils = require('../../lib/utils');
+var mvalue = require('./value');
 
 var supportedMethods = [
   'find', 'findOne', 'insert', 'update', 'remove'
@@ -55,19 +56,7 @@ var getMiddlewareFn = function( table, method ){
 
       args.push( req.dbQuery );
 
-      args = args.map( function( arg ){
-        if ( arg.__isMValue ){
-          return arg( req, res );
-        }
-
-        return arg;
-      });
-
-      utils.deepForIn( req.dbQuery, function( key, val, obj ){
-        if ( val.__isMValue ){
-          obj[ key ] = val( req, res );
-        }
-      });
+      mvalue.resolve( req.dbQuery, req, res );
 
       db[ table ][ method ].apply( db[ table ], args.concat( function( error, results ){
         if ( error ) return next( error );
@@ -101,6 +90,8 @@ module.exports.init = function( options ){
 };
 
 module.exports.query = function( queryComponent ){
-  deepExtend( req.dbQuery, queryComponent );
-  return next();
+  return function( req, res, next ){
+    deepExtend( req.dbQuery, queryComponent );
+    return next();
+  };
 };

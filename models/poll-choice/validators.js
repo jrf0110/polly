@@ -2,7 +2,7 @@ var errors = require('../../lib/errors');
 
 module.exports = require('stampit')()
   .enclose( function(){
-    this.validators.push( titleRequired );
+    this.addValidator( titleRequired );
   });
 
 function titleRequired(){

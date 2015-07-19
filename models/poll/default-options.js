@@ -8,6 +8,6 @@ module.exports = require('stampit')()
   });
 
 module.exports.defaultOptions = {
-  multipleVotesPerUser: false
-, multipleVotesPerIP:   false
+  numberOfVotesPerPoll:   1
+, multipleSessionsPerIp:  false
 };

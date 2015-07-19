@@ -1,3 +1,5 @@
+var PollResponse = require('../poll-response');
+
 module.exports = require('stampit')()
   .state({
     title:    null
@@ -5,4 +7,8 @@ module.exports = require('stampit')()
   })
   .compose( require('../../lib/stampit-validation') )
   .compose( require('./default-options') )
-  .compose( require('./validators') );
+  .compose( require('./apply-poll-choice-model') )
+  .compose( require('./validators') )
+  .methods({
+    
+  });

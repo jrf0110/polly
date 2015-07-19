@@ -9,6 +9,13 @@ var config = module.exports = {
       .replace( 'host', config.host )
       .replace( 'port', config.port );
   }
+
+, session: {
+    secret:  process.env['POLLY_SESSION_SECRET'] || 'blah'
+  , cookie: { maxAge: 14 * 24 * 60 * 60 * 1000 }
+  , resave: true
+  , saveUninitialized: true
+  }
 };
 
 if ( process.env['NODE_ENV'] === 'test' ){

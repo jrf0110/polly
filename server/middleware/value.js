@@ -16,6 +16,7 @@
  */
 
 var dotty = require('dotty');
+var utils = require('../../lib/utils');
 
 var coercions = {
   number: function( v ){
@@ -43,4 +44,12 @@ module.exports = function( str, coercion ){
   mvalue.__isMValue = true;
 
   return mvalue;
+};
+
+module.exports.resolve = function( search, req, res ){
+  utils.deepForIn( search, function( key, val, obj ){
+    if ( val.__isMValue ){
+      obj[ key ] = val( req, res );
+    }
+  });
 };

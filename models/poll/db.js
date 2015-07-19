@@ -4,16 +4,39 @@ var utils = require('../../lib/utils');
 module.exports = require('stampit')()
   .compose( require('./') )
   .methods({
-    fetch: function( callback ){
+    dal: db.polls
+
+  , fetch: function( options, callback ){
+      if ( typeof options === 'function' ){
+        callback = options;
+        options = {};
+      }
+
       var where = this.getWhereClause();
 
-      db.polls.findOne( where, db.polls.defaultQueryOptions, function( error, result ){
+      var qOptions = utils.extend( {}, this.dal.defaultQueryOptions, options );
+
+      this.dal.findOne( where, qOptions, function( error, result ){
         if ( error ){
           return callback( error );
         }
 
-        return callback( null, module.exports( result ) );
-      });
+        utils.extend( this, result );
+
+        return callback( null, this);
+      }.bind( this ));
+    }
+
+  , fetchStats: function( callback ){
+      db.poll_stats.findOne( { poll_id: this.id }, function( error, stats ){
+        if ( error ){
+          return callback( error );
+        }
+
+        this.stats = stats;
+
+        return callback( null, this );
+      }.bind( this ) );
     }
 
   , save: function( data, callback ){
@@ -32,29 +55,44 @@ module.exports = require('stampit')()
         data = null;
       }
 
-      utils.extend( this, data );
-
       var tx = db.dirac.tx.create();
 
-      tx.begin( function( error ){
+      // Save poll and choices
+      utils.async.waterfall([
+        tx.begin.bind( tx )
+      , function( results, next ){
+          tx.polls.insert( this, { returning: ['*'] }, next );
+        }.bind( this )
+      , function( pollResults, next ){
+          var poll = pollResults[0];
+
+          var choices = this.choices.map( function( choice ){
+            return utils.extend( { poll_id: poll.id }, choice );
+          });
+
+          tx.poll_choices.insert( choices, { returning: ['*'] }, function( error, results ){
+            return next( error, poll, results );
+          });
+        }.bind( this )
+      , function( poll, choices, next ){
+          tx.commit( function( error ){
+            if ( error ){
+              return next( error );
+            }
+
+            poll.choices = choices;
+            utils.extend( this, poll );
+
+            return next();
+          }.bind( this ) );
+        }.bind( this )
+      ], function( error ){
         if ( error ){
           tx.rollback();
           return callback( error );
         }
 
-        tx.polls.insert( this, function( error, results ){
-          if ( error ) return callback( error );
-
-          tx.commit( function( error ){
-            if ( error ){
-              return callback( error );
-            }
-
-            utils.extend( this, results[0] );
-
-            return callback( error, this );
-          }.bind( this ));
-        }.bind( this ));
+        return callback( null, this );
       }.bind( this ));
     }
 
@@ -101,7 +139,7 @@ module.exports = require('stampit')()
     }
 
   , remove: function( callback ){
-      db.polls.remove( this.getWhereClause(), callback );
+      this.dal.remove( this.getWhereClause(), callback );
     }
   });
 
@@ -111,9 +149,9 @@ module.exports.find = function( where, options, callback ){
     options = null;
   }
 
-  options = utils.defaults( options || {}, db.polls.defaultQueryOptions );
+  options = utils.defaults( options || {}, this.dal.defaultQueryOptions );
 
-  return db.polls.find( where, options, function( error, results ){
+  return this.dal.find( where, options, function( error, results ){
     if ( error ) return callback( error );
 
     var polls = reuslts.map( function( r ){
@@ -123,3 +161,19 @@ module.exports.find = function( where, options, callback ){
     return callback( null, r );
   });
 };
+
+// function beforeFind( query, schema, done ){
+//   utils.defaults( query, db.polls.defaultQueryOptions );
+//   done();
+// }
+
+// db.polls.before( 'find', beforeFind );
+// db.polls.before( 'findOne', beforeFind );
+
+// db.polls.after( 'find', function( results, query, schema, done ){
+//   for ( var i = results.length - 1; i >= 0; i-- ){
+//     results[ i ] = Poll.create( results[ i ] );
+//   }
+
+//   done();
+// });

@@ -4,6 +4,7 @@ module.exports = {
   connectionStr: 'postgres://localhost:5432/polly'
 , extensions: [
     'uuid-ossp'
+  , 'hstore'
   ]
 , fixturesPath: __dirname + '/../db/scripts/fixtures.sql'
 };
