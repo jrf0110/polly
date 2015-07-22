@@ -1,0 +1,15 @@
+#components {
+  .container( @width: 1100px, @breakpoint-padding: 0 ){
+    display: table;
+    width: @width;
+    margin: 0 auto;
+
+    @media screen and ( max-width: @width ){
+      & {
+        width: 100%;
+        padding-left: @breakpoint-padding;
+        padding-right: @breakpoint-padding;
+      }
+    }
+  }
+}

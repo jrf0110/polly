@@ -10,6 +10,8 @@ import Hydrator from './lib/hydrator';
 
 require('../stores/poll').setLogger( logger );
 
+window.dispatcher = dispatcher;
+
 logger.info('Bootstrapping');
 
 Hydrator().hydrate();

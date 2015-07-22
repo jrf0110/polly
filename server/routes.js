@@ -6,6 +6,7 @@ import PollMiddleware from '../models/poll/middleware';
 import HomePage       from '../components/pages/home';
 import PollPage       from '../components/pages/poll';
 import dispatcher     from '../lib/dispatcher';
+import reactRoutes    from './react-routes';
 
 var routes = module.exports = Object.create({
   head: function(){
@@ -19,7 +20,7 @@ var routes = module.exports = Object.create({
 
 , router: function(){
     return function( req, res, next ){
-      Router.run( routes, req.path, ( Handler ) => {
+      Router.run( reactRoutes, req.path, ( Handler ) => {
         res.write( React.renderToString( <Handler path={req.path} /> ) );
         return next();
       });

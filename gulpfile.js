@@ -12,7 +12,7 @@ gulp.util     = require('gulp-util');
 var logger    = require('./lib/logger').create('Gulpfile');
 
 var scripts = {
-  public: ['./client/*.js', './client/**/*.js']
+  public: ['./client/*.js', './client/**/*.js', './components/*.js', './components/**/*.js']
 };
 
 module.exports = gulp;

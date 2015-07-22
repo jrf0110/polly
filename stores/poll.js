@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import dispatcher from '../lib/dispatcher';
 import Poll from '../models/poll/db';
+import PollChoice from '../models/poll-choice';
 
 var poll = Poll.create({});
 
@@ -14,6 +15,12 @@ class PollStore extends EventEmitter {
       switch( action.type ){
         case 'RECEIVE_POLL':
           poll = action.poll;
+          this.emit('change');
+        break;
+
+        case 'UPDATE_CHOICE':
+          poll.choices[ action.index ] = poll.choices[ action.index ] || PollChoice();
+          poll.choices[ action.index ].title = action.value;
           this.emit('change');
         break;
       }

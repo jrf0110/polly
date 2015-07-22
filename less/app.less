@@ -1,3 +1,23 @@
 /////////
 // App //
 /////////
+
+@import (less) "http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic";
+
+@import "./components/container.less";
+@import "./components/page.less";
+@import "./components/poll-creator.less";
+
+html, body {
+  font-family: 'Lato', sans-serif;
+}
+
+.container {
+  #components > .container(
+    @width: 1024px
+  );
+}
+
+.poll-creator {
+  #components > .poll-creator();
+}
