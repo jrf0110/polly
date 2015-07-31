@@ -20,10 +20,13 @@ router.get('/polls/:id'
 
 // Create Poll
 router.post('/polls'
+, m.logger.info('Creating Poll')
 , PollMiddleware.create()
+, m.logger.info('Fetching Stats')
 , function( req, res, next ){
     req.poll.fetchStats( next );
   }
+, m.logger.info('Sending result')
 , m.json( m.value('req.poll') )
 );
 

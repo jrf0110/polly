@@ -12,7 +12,7 @@ module.exports = function( key, value ){
 
 module.exports.init = function( options ){
   return function( req, res, next ){
-    if ( req.header['Content-Type'] !== 'text/html' ){
+    if ( (req.headers.accept || '').split(',').indexOf('text/html') === -1 ){
       return next();
     }
     

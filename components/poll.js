@@ -11,12 +11,10 @@ function getState(){
 
 export default React.createClass({
   getInitialState: function(){
-    console.log('getInitialState');
     return getState();
   }
 
 , componentDidMount: function(){
-    console.log('componentDidMount');
     PollStore.on( 'change', this._onChange );
 
     if ( this.props.params )
@@ -26,14 +24,20 @@ export default React.createClass({
   }
 
 , componentWillUnmount: function(){
-    console.log('componentDidMount');
     PollStore.removeListener( 'change', this._onChange );
   }
 
 , render: function(){
+    var choices = this.state.poll.choices.map( choice => {
+      return <li>{choice.title}</li>
+    });
+
     return (
       <div className="poll">
         <h1>{this.state.poll.title}</h1>
+        <ul>
+          {choices}
+        </ul>
       </div>
     );
   }

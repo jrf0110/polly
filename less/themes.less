@@ -1,0 +1,60 @@
+////////////
+// Themes //
+////////////
+//
+// Usage:
+//    .something {
+//      #themes > .get('neon-purple');
+//      .background();
+//    }
+// 
+// Properties:
+//    @primary
+//    @secondary
+//    @tertiary
+//    @text-color
+//    @background
+// 
+// Mixins:
+//    .background()
+//    .color()
+
+#themes {
+  .get( @theme ) when ( @theme = 'default' ){ #themes > #default(); }
+  .get( @theme ) when ( @theme = 'neon-purple' ){ #themes > #neon-purple(); }
+
+  .standard( @text-color, @background ){
+    .color(){
+      color: @text-color;
+    }
+
+    .background(){
+      background: @background;
+    }
+  }
+  
+  #default {
+    @primary:       #1A57FF;
+    @secondary:     #1A57FF;
+    @tertiary:      #1A57FF;
+    @text-color:    #333;
+    @background:    #fff;
+
+    #themes > .standard( @text-color, @background );
+  }
+
+  #neon-purple {
+    @primary:       #B993D6;
+    @secondary:     #8CA6DB;
+    @tertiary:      #B993D6;
+    @text-color:    #fff;
+    @background:    @primary;
+
+    #themes > .standard( @text-color, @background );
+
+    .background(){
+      background: @primary;
+      background: linear-gradient( 90deg, @primary 10%, @secondary 90% );
+    }
+  }
+}

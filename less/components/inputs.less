@@ -1,0 +1,36 @@
+////////////
+// Inputs //
+////////////
+
+@import "../themes.less";
+@import "../sizing.less";
+
+#components {
+  #inputs {
+    .init(){
+      border-style: solid;
+      border-with: 3px;
+      border-radius: 4px;
+      background: transparent;
+
+      #sizing > .get('default');
+      .padding();
+      .font();
+
+      .theme-neon-purple &,
+      &.theme-neon-purple {
+        .theme('neon-purple');
+      }
+    }
+
+    .theme( @name ){
+      #themes > .get( @name );
+      color: @text-color;
+      border-color: fadeout( @text-color, 10% );
+
+      &:focus {
+        border-color: @text-color;
+      }
+    }
+  }
+}

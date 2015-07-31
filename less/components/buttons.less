@@ -1,0 +1,54 @@
+/////////////
+// Buttons //
+/////////////
+
+@import "../themes.less";
+@import "../sizing.less";
+
+#components {
+  #buttons {
+    .init(){
+      button, .btn {
+        border-style: solid;
+        border-width: 3px;
+        border-radius: 4px;
+        background: transparent;
+        transition: all 0.2s linear;
+        opacity: 1;
+        -webkit-filter: blur(0);
+
+        #sizing > .get('default');
+        .padding();
+        .font();
+
+        .theme-neon-purple &,
+        &.theme-neon-purple {
+          #components > #buttons > .theme('neon-purple');
+        }
+
+        &[disabled] {
+          -webkit-filter: blur(1px);
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .theme( @name ){
+      #themes > .get( @name );
+      color: @text-color;
+      border-color: fadeout( @text-color, 10% );
+
+      &:focus {
+        border-color: @text-color;
+      }
+    }
+
+    .size( @size ) when ( @size = 'extra-large' ){
+      #sizing > .get('extra-large');
+      .padding-vertical();
+      .font();
+      padding-left: @left * 4;
+      padding-right: @right * 4;
+    }
+  }
+}

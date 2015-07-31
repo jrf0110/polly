@@ -9,6 +9,7 @@ module.exports = require('stampit')()
   .compose( require('./default-options') )
   .compose( require('./apply-poll-choice-model') )
   .compose( require('./validators') )
+  .compose( require('./labels') )
   .methods({
     
   });

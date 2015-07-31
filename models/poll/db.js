@@ -67,7 +67,7 @@ module.exports = require('stampit')()
           var poll = pollResults[0];
 
           var choices = this.choices.map( function( choice ){
-            return utils.extend( { poll_id: poll.id }, choice );
+            return utils.extend( { poll_id: poll.id }, utils.pick( choice, 'title', 'body' ) );
           });
 
           tx.poll_choices.insert( choices, { returning: ['*'] }, function( error, results ){

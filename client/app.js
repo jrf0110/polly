@@ -7,10 +7,14 @@ import logger from './lib/logger';
 import config from 'config';
 import dispatcher from '../lib/dispatcher';
 import Hydrator from './lib/hydrator';
+import pollStore from '../stores/poll';
 
-require('../stores/poll').setLogger( logger );
+pollStore.setLogger( logger );
 
 window.dispatcher = dispatcher;
+window.stores = {
+  poll: pollStore
+};
 
 logger.info('Bootstrapping');
 
@@ -24,7 +28,7 @@ $(function(){
 
     React.render(
       <Handler path={window.location.pathname} />
-    , document.getElementById('app')
+    , document.body
     );
 
     logger.info('Welcome to Polly!');

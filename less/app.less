@@ -6,10 +6,23 @@
 
 @import "./components/container.less";
 @import "./components/page.less";
-@import "./components/poll-creator.less";
+@import "./components/inputs.less";
+@import "./components/buttons.less";
+@import "./components/forms.less";
+@import "./components/poll-editor.less";
+@import "./components/input-placeholder.less";
 
 html, body {
   font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  display: flex;
+  flex: 1;
 }
 
 .container {
@@ -18,6 +31,15 @@ html, body {
   );
 }
 
-.poll-creator {
-  #components > .poll-creator();
+.poll-editor {
+  #components > .poll-editor();
 }
+
+input {
+  #components > #inputs > .init();
+}
+
+#components > #forms > .init();
+#components > #buttons > .init();
+
+#components > .input-placeholder( @font-family: 'Lato' );

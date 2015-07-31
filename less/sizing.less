@@ -1,0 +1,69 @@
+////////////
+// Sizing //
+////////////
+
+#sizing {
+  .get( @size ) when ( @size = 'default' ){ #sizing > #default(); }
+  .get( @size ) when ( @size = 'small' ){ #sizing > #small(); }
+  .get( @size ) when ( @size = 'large' ){ #sizing > #large(); }
+  .get( @size ) when ( @size = 'extra-large' ){ #sizing > #extra-large(); }
+
+  .standard( @_font-size, @_top, @_right, @_bottom, @_left ){
+    @font-size: @_font-size;
+    @top: @_top;
+    @right: @_right;
+    @bottom: @_bottom;
+    @left: @_left;
+
+    .font(){
+      font-size: @font-size;
+      line-height: @font-size * 1.4;
+    }
+
+    .padding(){
+      .padding-horizontal();
+      .padding-vertical();
+    }
+
+    .padding-horizontal(){
+      padding-left: @left;
+      padding-right: @right;
+    }
+
+    .padding-vertical(){
+      padding-top: @top;
+      padding-bottom: @bottom;
+    }
+
+    .margin(){
+      .margin-horizontal();
+      .margin-vertical();
+    }
+
+    .margin-horizontal(){
+      margin-left: @left;
+      margin-right: @right;
+    }
+
+    .margin-vertical(){
+      margin-top: @top;
+      margin-bottom: @bottom;
+    }
+  }
+
+  #default {
+    #sizing > .standard( 16px, 16px, 16px, 16px, 16px );
+  }
+
+  #small {
+    #sizing > .standard( 14px, 12px, 12px, 12px, 12px );
+  }
+
+  #large {
+    #sizing > .standard( 24px, 32px, 16px, 32px, 16px );
+  }
+
+  #extra-large {
+    #sizing > .standard( 28px, 32px, 16px, 32px, 16px );
+  }
+}

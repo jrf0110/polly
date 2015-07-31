@@ -11,7 +11,7 @@ module.exports = require('stampit')()
 
 function titleRequired(){
   if ( typeof this.title !== 'string' || this.title.length === 0 ){
-    return errors.validation.INVALID_INPUT('title');
+    return errors.validation.INVALID_INPUT('title', this.title);
   }
 
   return null;

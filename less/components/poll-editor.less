@@ -1,0 +1,83 @@
+//////////////////
+// Poll Creator //
+//////////////////
+
+@import "../themes.less";
+@import "./buttons.less";
+
+#components {
+  .poll-editor(){
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 0;
+
+    > .main-inputs {
+      display: block;
+      flex: 1;
+      #sizing > .get('large');
+      .margin-vertical();
+      // margin-bottom: @bottom;
+    }
+
+    .poll-form-group {
+      > input.poll-title {
+        #sizing > .get('extra-large');
+        .font();
+        #sizing > .get('large');
+        .padding();
+        #themes > .get('default');
+        color: @text-color;
+      }
+
+       > input {
+        border: none;
+        #sizing > .get('large');
+          .padding-horizontal();
+          .font();
+        #sizing > .get('default');
+          .padding-vertical();
+
+        transition:
+          ease-out padding 0.2s,
+          border-color 0.08s linear,
+          color 0.2s ease-in;
+        width: 100%;
+        border-bottom: dotted 2px rgba( 0, 0, 0, 0 );
+
+        #themes > .get('default');
+        color: fade( @text-color, 50% );
+
+        &:focus {
+          outline: none;
+          #sizing > .get('large');
+            .padding-vertical();
+          border-color: rgba( 0, 0, 0, 0.3 );
+          color: @text-color;
+        }
+      }
+    }
+
+
+    .poll-editor-footer {
+      padding: 52px 0;
+
+      #themes > .get('neon-purple');
+      .color();
+      .background();
+
+      > .container {
+        display: flex;
+      }
+
+      .options-editor {
+        flex: 1;
+      }
+
+      [type="submit"] {
+        #sizing > .get('default');
+          .font();
+      }
+    }
+  }
+}
