@@ -4,10 +4,16 @@ var m       = require('../../server/middleware');
 
 var defaultQueryOptions = require('../../db/dals/polls').defaultQueryOptions;
 
-module.exports.list = function( options ){
+var PollMiddleware = module.exports;
+
+PollMiddleware._hasVoted = function( req, res ){
+  m.db.query({ hasVoted: { user_ip: req.ip, session_id: req.sessionID } })( req, res, utils.noop );
+};
+
+PollMiddleware.list = function( options ){
   return function( req, res, next ){
     m.db.query( defaultQueryOptions )( req, res, utils.noop );
-    m.db.query({ hasVoted: { user_ip: req.ip, session_id: req.sessionID } });
+    PollMiddleware._hasVoted( req, res, utils.noop );
 
     m.db.polls.find()( req, res, function( error ){
       if ( error ) return next( error );
@@ -19,7 +25,7 @@ module.exports.list = function( options ){
   };
 };
 
-module.exports.get = function( options ){
+PollMiddleware.get = function( options ){
   options = utils.defaults( options || {}, {
     idLookup: 'req.params.id'
   });
@@ -28,13 +34,13 @@ module.exports.get = function( options ){
     var fetchOptions = {
       hasVoted: { user_ip: req.ip, session_id: req.sessionID }
     };
-    
+
     req.poll = Poll.create({ id: m.value( options.idLookup )( req, res ) });
     req.poll.fetch( fetchOptions, next );
   };
 };
 
-module.exports.create = function( options ){
+PollMiddleware.create = function( options ){
   return function( req, res, next ){
     req.poll = Poll.create( req.body );
     var errors = req.poll.validate();
@@ -47,7 +53,7 @@ module.exports.create = function( options ){
   };
 };
 
-module.exports.update = function( options ){
+PollMiddleware.update = function( options ){
   options = utils.defaults( options || {}, {
     idLookup: 'req.params.id'
   });
@@ -58,7 +64,7 @@ module.exports.update = function( options ){
   };
 };
 
-module.exports.del = function( options ){
+PollMiddleware.del = function( options ){
   return function( req, res, next ){
     req.poll = req.poll || Poll.create({ id: m.value( options.idLookup )( req, res ) });
     req.poll.remove( next );

@@ -1,7 +1,7 @@
 import Poll from '../models/poll/db';
 import dispatcher from '../lib/dispatcher';
 
-export function fetchPollById( id ){
+module.exports.fetchPollById = function( id ){
   Poll
     .create({ id: id })
     .fetch( function( error, poll ){
@@ -17,4 +17,4 @@ export function fetchPollById( id ){
       , poll: poll
       });
     });
-}
+};

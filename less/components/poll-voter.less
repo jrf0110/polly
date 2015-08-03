@@ -1,0 +1,41 @@
+////////////////
+// Poll Voter //
+////////////////
+
+@import "../themes.less";
+
+#components { #poll-voter {
+  .init(){
+    .poll-voter {
+      .poll-choice {
+        display: table;
+        width: 100%;
+
+        #themes > .get('default');
+        #sizing > .get('default');
+
+        .padding();
+
+        transition: all ease-out 0.3s;
+
+        &.disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        > .poll-choice-col {
+          display: table-cell;
+
+          &.input-wrapper {
+            width: 50px;
+          }
+        }
+
+        &:hover {
+          cursor: pointer;
+          background: fade( @text-color, 5% );
+        }
+      }
+    }
+  }  
+}}

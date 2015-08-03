@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import config from 'config';
 import utils from '../lib/utils';
@@ -5,6 +6,7 @@ import Poll from '../models/poll';
 import PollChoice from '../models/poll-choice';
 import PollStore from '../stores/poll';
 import dispatcher from '../lib/dispatcher';
+import CheckboxWrapper from './checkbox';
 
 export default React.createClass({
   getInitialState: function(){
@@ -13,33 +15,17 @@ export default React.createClass({
     };
   }
 
-, getDefaultProps: function(){
-    return {
-      defaultNumChoices: 3
-    }
-  }
-
-, componentDidMount: function(){
-    PollStore.on( 'change', this.onPollChange );
-  }
-
-, componentWillUnmount: function(){
-    PollStore.removeListener( 'change', this.onPollChange );
-  }
-
-, render: function(){
-    var numFilled = this.state.poll.choices
+, getChoicesJSX: function(){
+    var numFilled = this.props.poll.choices
       .filter( function( choice ){
         return choice && choice.title;
       })
       .length;
 
-    var choices = utils.range( Math.max(
-      this.state.poll.choices.length + 1, this.props.defaultNumChoices
-    ));
-
-    choices = choices
-      .map( i => this.state.poll.choices[ i ] || PollChoice.create() )
+    return utils.range( Math.max(
+        this.props.poll.choices.length + 1, this.props.defaultNumChoices
+      ))
+      .map( i => this.props.poll.choices[ i ] || PollChoice.create() )
       .map( ( choice, i )=> {
         var placeholder = 'Choice #' + ( i + 1 );
         return (
@@ -54,8 +40,12 @@ export default React.createClass({
           </div>
         );
       });
+  }
 
-    var errors = this.state.poll.validate();
+, render: function(){
+    var choices = this.getChoicesJSX();
+
+    var errors = this.props.poll.validate();
     var disableSubmit = errors && errors.length;
 
     return (
@@ -67,7 +57,7 @@ export default React.createClass({
               className="poll-title"
               placeholder="Enter a title"
               onChange={this.onTitleChange}
-              value={this.state.poll.title} />
+              value={this.props.poll.title} />
           </div>
           <div className="poll-choices">
             {choices}
@@ -77,21 +67,24 @@ export default React.createClass({
           <div className="container">
             <div className="options-editor">
               <div className="form-group">
-                <input
-                  type="number"
-                  value={this.state.poll.options.numberOfVotesPerPoll}
-                  onChange={this.onNumberOfVotesPerPollChange}
-                  min="1"
-                />
-                <label>{this.state.poll.label('options.numberOfVotesPerPoll')}</label>
+                <div className="input-wrapper">
+                  <input
+                    type="number"
+                    value={this.props.poll.options.numberOfVotesPerPoll}
+                    onChange={this.onNumberOfVotesPerPollChange}
+                    min="1"
+                  />
+                </div>
+                <label>{this.props.poll.label('options.numberOfVotesPerPoll')}</label>
               </div>
               <div className="form-group">
-                <input
-                  type="checkbox"
-                  checked={!this.state.poll.options.multipleSessionsPerIp}
-                  onChange={this.onMultipleSessionsPerIpChange}
-                />
-                <label>{this.state.poll.label('options.multipleSessionsPerIp')}</label>
+                <div className="input-wrapper">
+                  <CheckboxWrapper
+                    checked={!this.props.poll.options.multipleSessionsPerIp}
+                    onChange={this.onMultipleSessionsPerIpChange}
+                  />
+                </div>
+                <label>{this.props.poll.label('options.multipleSessionsPerIp')}</label>
               </div>
             </div>
             <div className="action-wrapper">
@@ -143,17 +136,11 @@ export default React.createClass({
     });
   }
 
-, onMultipleSessionsPerIpChange: function( e ){
+, onMultipleSessionsPerIpChange: function( val ){
     dispatcher.dispatch({
       type:   'UPDATE_POLL_OPTIONS'
     , option: 'multipleSessionsPerIp'
-    , value:  !e.target.checked
-    });
-  }
-
-, onPollChange: function(){
-    this.setState({
-      poll: PollStore.get()
+    , value:  !val
     });
   }
 });

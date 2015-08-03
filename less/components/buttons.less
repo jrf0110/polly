@@ -16,6 +16,7 @@
         transition: all 0.2s linear;
         opacity: 1;
         -webkit-filter: blur(0);
+        cursor: pointer;
 
         #sizing > .get('default');
         .padding();
@@ -27,8 +28,8 @@
         }
 
         &[disabled] {
-          -webkit-filter: blur(1px);
           opacity: 0.5;
+          cursor: not-allowed;
         }
       }
     }
@@ -40,6 +41,10 @@
 
       &:focus {
         border-color: @text-color;
+      }
+
+      &:active {
+        background-color: fade( @text-color, 20% );
       }
     }
 

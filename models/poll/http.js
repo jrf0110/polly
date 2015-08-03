@@ -3,3 +3,6 @@ module.exports = require('stampit')
   .compose( require('../../lib/stampit-rest')({
     baseUrl: '/api/polls'
   }))
+  .methods({
+
+  })

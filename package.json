@@ -38,6 +38,7 @@
     "gulp-less": "^1.3.9",
     "gulp-react": "^3.0.1",
     "gulp-util": "^3.0.4",
+    "icheck": "^1.0.2",
     "jquery": "^2.1.3",
     "jsxhint": "^0.14.0",
     "lodash": "^3.6.0",
@@ -73,8 +74,9 @@
     "run-sequence": "^1.1.0"
   },
   "browser": {
-    "config": "./config/local.js",
+    "config": "./config/public.js",
     "./models/poll/db.js": "./models/poll/http.js",
+    "./models/poll-response/db.js": "./models/poll-response/http.js",
     "./lib/logger.js": "./client/lib/logger.js",
     "loglog": "./node_modules/loglog/browser-index.js"
   }

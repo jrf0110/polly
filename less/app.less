@@ -4,13 +4,19 @@
 
 @import (less) "http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic";
 
+@import "./sizing.less";
+@import "./themes.less";
+
 @import "./components/container.less";
 @import "./components/page.less";
 @import "./components/inputs.less";
 @import "./components/buttons.less";
 @import "./components/forms.less";
-@import "./components/poll-editor.less";
+@import "./components/checkbox.less";
 @import "./components/input-placeholder.less";
+@import "./components/poll-editor.less";
+@import "./components/poll-header-hero.less";
+@import "./components/poll-voter.less";
 
 html, body {
   font-family: 'Lato', sans-serif;
@@ -26,8 +32,10 @@ html, body {
 }
 
 .container {
+  #sizing > .get('default');
   #components > .container(
     @width: 1024px
+  , @breakpoint-padding: @left
   );
 }
 
@@ -41,5 +49,12 @@ input {
 
 #components > #forms > .init();
 #components > #buttons > .init();
+#components > #checkbox > .init();
+#components > #poll-header-hero > .init();
+#components > #poll-voter > .init();
 
 #components > .input-placeholder( @font-family: 'Lato' );
+
+.page > .poll {
+  flex: 1;
+}

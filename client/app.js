@@ -8,6 +8,7 @@ import config from 'config';
 import dispatcher from '../lib/dispatcher';
 import Hydrator from './lib/hydrator';
 import pollStore from '../stores/poll';
+import PollActions from '../actions/poll';
 
 pollStore.setLogger( logger );
 
@@ -27,7 +28,7 @@ $(function(){
     logger.info('Router listening');
 
     React.render(
-      <Handler path={window.location.pathname} />
+      <Handler path={window.location.pathname} logger={logger} />
     , document.body
     );
 

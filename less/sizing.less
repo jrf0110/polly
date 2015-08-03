@@ -7,6 +7,7 @@
   .get( @size ) when ( @size = 'small' ){ #sizing > #small(); }
   .get( @size ) when ( @size = 'large' ){ #sizing > #large(); }
   .get( @size ) when ( @size = 'extra-large' ){ #sizing > #extra-large(); }
+  .get( @size ) when ( @size = 'hella-large' ){ #sizing > #hella-large(); }
 
   .standard( @_font-size, @_top, @_right, @_bottom, @_left ){
     @font-size: @_font-size;
@@ -64,6 +65,10 @@
   }
 
   #extra-large {
-    #sizing > .standard( 28px, 32px, 16px, 32px, 16px );
+    #sizing > .standard( 32px, 32px, 16px, 32px, 16px );
+  }
+
+  #hella-large {
+    #sizing > .standard( 32px, 180px, 16px, 50px, 16px );
   }
 }

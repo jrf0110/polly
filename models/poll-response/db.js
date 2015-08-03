@@ -1,9 +1,14 @@
-var db    = require('../../db');
-var utils = require('../../lib/utils');
+var db          = require('../../db');
+var utils       = require('../../lib/utils');
+var validation  = require('../../lib/stampit-validation');
 
 module.exports = require('stampit')()
   .compose( require('./') )
   .compose( require('./poll-restriction-validation') )
+  .enclose( function(){
+    this.addValidator( validation.requiredField( 'session_id', 'string' ) );
+    this.addValidator( validation.requiredField( 'user_ip', 'string' ) );
+  })
   .methods({
     dal: db.poll_responses
 

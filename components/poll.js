@@ -1,48 +1,23 @@
 import React from 'react';
 import config from 'config';
 import PollActions from '../actions/poll';
-import PollStore from '../stores/poll';
-
-function getState(){
-  return {
-    poll: PollStore.get()
-  };
-}
+import PollHeader from './poll-header';
+import PollVoter from './poll-voter';
+import PollResults from './poll-results';
 
 export default React.createClass({
-  getInitialState: function(){
-    return getState();
-  }
-
-, componentDidMount: function(){
-    PollStore.on( 'change', this._onChange );
-
-    if ( this.props.params )
-    if ( this.state.poll.id !== this.props.params.id ){
-      PollActions.fetchPollById( this.props.params.id );
-    }
-  }
-
-, componentWillUnmount: function(){
-    PollStore.removeListener( 'change', this._onChange );
-  }
-
-, render: function(){
-    var choices = this.state.poll.choices.map( choice => {
+  render: function(){
+    var choices = this.props.poll.choices.map( choice => {
       return <li>{choice.title}</li>
     });
 
     return (
       <div className="poll">
-        <h1>{this.state.poll.title}</h1>
-        <ul>
-          {choices}
-        </ul>
+        <PollHeader poll={this.props.poll} />
+        {({ true:   <PollResults poll={this.props.poll} />
+          , false:  <PollVoter poll={this.props.poll} />
+        })[ !!this.props.poll.has_voted ]}
       </div>
     );
-  }
-
-, _onChange: function(){
-    this.setState( getState() );
   }
 });

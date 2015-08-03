@@ -10,6 +10,7 @@ module.exports = require('stampit')()
   .compose( require('./apply-poll-choice-model') )
   .compose( require('./validators') )
   .compose( require('./labels') )
+  .compose( require('./session-responses') )
   .methods({
     
   });

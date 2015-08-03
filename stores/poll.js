@@ -24,7 +24,7 @@ class PollStore extends EventEmitter {
         break;
 
         case 'RECEIVE_POLL':
-          poll = action.poll;
+          poll = Poll.create( action.poll );
           this.emit('change');
         break;
 
@@ -61,6 +61,16 @@ class PollStore extends EventEmitter {
 
         case 'UPDATE_POLL_OPTIONS':
           poll.options[ action.option ] = action.value;
+          this.emit('change');
+        break;
+
+        case 'ADD_RESPONSE':
+          poll.addSessionResponse( action.id );
+          this.emit('change');
+        break;
+
+        case 'REMOVE_RESPONSE':
+          poll.removeSessionResponse( action.id );
           this.emit('change');
         break;
       }
