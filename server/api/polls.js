@@ -40,7 +40,6 @@ router.post('/polls/:id/responses'
 
     var errors = req.poll_response.validate();
 
-
     if ( errors.length ){
       return next( errors[0] );
     }

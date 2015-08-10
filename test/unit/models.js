@@ -48,6 +48,65 @@ describe('Models', function(){
       assert.equal( errors.length, 1 );
       assert.equal( errors[0].name, 'TOO_FEW_CHOICES' );
     });
+
+    describe('SessionResponses', function(){
+      it('.addSessionResponse()', function(){
+        var p = Poll.create();
+        p.addSessionResponse(1);
+        assert.deepEqual( p.pending_session_responses, [1] );
+      });
+
+      it('.removeSessionResponse()', function(){
+        var p = Poll.create();
+        p.addSessionResponse(3);
+        p.removeSessionResponse(1);
+        assert.deepEqual( p.pending_session_responses, [3] );
+        p.removeSessionResponse(3);
+        assert.deepEqual( p.pending_session_responses, [] );
+      });
+
+      it('.hasSessionResponse()', function(){
+        var p = Poll.create();
+        p.addSessionResponse(3);
+        assert( p.hasSessionResponse(3) );
+        assert( !p.hasSessionResponse(2) );
+      });
+
+      it('.doneVoting()', function(){
+        var p = Poll.create();
+        p.session_responses.push(1);
+        assert( p.doneVoting() );
+      });
+
+      it('.hasMetMaximumNumberOfVotes()', function(){
+        var p = Poll.create({
+          options: { numberOfVotesPerPoll: 2 }
+        });
+
+        p.addSessionResponse(3);
+        assert( !p.hasMetMaximumNumberOfVotes() );
+
+        p.addSessionResponse(4);
+        assert( p.hasMetMaximumNumberOfVotes() );
+      });
+    });
+
+    describe('Stats', function(){
+      it('.getTotalVotes()', function(){
+        var p = Poll.create({
+          stats: {
+            responses: {
+              1: 5
+            , 2: 10
+            , 3: 0
+            , 4: 20
+            }
+          }
+        });
+
+        assert.equal( p.getTotalVotes(), 35 );
+      });
+    });
   });
 
   describe('PollChoice', function(){

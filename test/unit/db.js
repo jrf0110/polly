@@ -17,7 +17,8 @@ describe('DB', function(){
         return done( error );
       }
 
-      assert.equal( poll.has_voted, true );
+      // assert.equal( poll.has_voted, true );
+      assert.deepEqual( poll.session_responses, [1] );
 
       done();
     });
@@ -36,7 +37,8 @@ describe('DB', function(){
         return done( error );
       }
 
-      assert.equal( poll.has_voted, true );
+      // assert.equal( poll.has_voted, true );
+      assert.deepEqual( poll.session_responses, [1] );
 
       done();
     });
@@ -55,7 +57,8 @@ describe('DB', function(){
         return done( error );
       }
 
-      assert.equal( poll.has_voted, false );
+      // assert.equal( poll.has_voted, false );
+      assert.deepEqual( poll.session_responses, [] );
 
       done();
     });
@@ -74,7 +77,8 @@ describe('DB', function(){
         return done( error );
       }
 
-      assert.equal( poll.has_voted, false );
+      // assert.equal( poll.has_voted, false );
+      assert.deepEqual( poll.session_responses, [] );
 
       done();
     });
@@ -93,7 +97,8 @@ describe('DB', function(){
         return done( error );
       }
 
-      assert.equal( poll.has_voted, true );
+      // assert.equal( poll.has_voted, true );
+      assert.deepEqual( poll.session_responses, [4] );
 
       done();
     });

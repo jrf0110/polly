@@ -19,7 +19,7 @@ class PollStore extends EventEmitter {
         break;
 
         case 'CLEAR_POLL_ID':
-          delete poll.id;
+          poll = Poll.create()
           this.emit('change');
         break;
 
@@ -72,6 +72,16 @@ class PollStore extends EventEmitter {
         case 'REMOVE_RESPONSE':
           poll.removeSessionResponse( action.id );
           this.emit('change');
+        break;
+
+        case 'SAVE_RESPONSES':
+          poll.saveSessionResponses( ( error )=>{
+            if ( error ){
+              return this.emit( 'error', action.error );
+            }
+
+            this.emit('change');
+          });
         break;
       }
 

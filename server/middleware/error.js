@@ -2,8 +2,6 @@ var errors = require('../../lib/errors');
 
 module.exports = function( options ){
   return function( error, req, res, next ){
-    if ( error ) throw error;
-    console.log(error);
     req.logger.error( error );
 
     if ( !error.httpStatus ){

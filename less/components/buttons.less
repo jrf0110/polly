@@ -18,9 +18,7 @@
         -webkit-filter: blur(0);
         cursor: pointer;
 
-        #sizing > .get('default');
-        .padding();
-        .font();
+        #components > #buttons > .size('default');
 
         .theme-neon-purple &,
         &.theme-neon-purple {
@@ -48,12 +46,12 @@
       }
     }
 
-    .size( @size ) when ( @size = 'extra-large' ){
-      #sizing > .get('extra-large');
+    .size( @size ){
+      #sizing > .get( @size );
       .padding-vertical();
       .font();
-      padding-left: @left * 4;
-      padding-right: @right * 4;
+      padding-left: @left * 3;
+      padding-right: @right * 3;
     }
   }
 }

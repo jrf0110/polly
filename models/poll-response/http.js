@@ -2,7 +2,9 @@ module.exports = require('stampit')
   .compose( require('./') )
   .compose( require('../../lib/stampit-rest')({
     baseUrl: '/api/polls'
-  , url: function(){
+  }))
+  .methods({
+    url: function(){
       var url = [ this.options.baseUrl, this.poll_id, 'responses' ];
 
       if ( this.isNew() ){
@@ -13,7 +15,4 @@ module.exports = require('stampit')
 
       return url.join('/');
     }
-  }))
-  .methods({
-
   })

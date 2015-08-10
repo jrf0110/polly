@@ -1,0 +1,65 @@
+///////////////////////
+// Poll Results List //
+///////////////////////
+
+@import "../themes.less";
+@import "../sizing.less";
+
+#components { #poll-results-list {
+
+.init(){
+  .poll-results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .poll-result {
+      display: table;
+      width: 100%;
+      #sizing > .get('default');
+      margin-top: @top;
+    }
+
+    .poll-result-col {
+      display: table-cell;
+      #sizing > .get('default');
+      .padding();
+    }
+
+    .result-percent-col {
+      #themes .get('secondary');
+      position: relative;
+      width: 80px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: darken( @background, 12% );
+
+      // border: solid 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .result-percent-background,
+    .result-percent-foreground {
+      box-sizing: border-box;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      overflow: hidden;
+    }
+
+    .result-percent-foreground {
+      #themes > .get('secondary');
+      .background();
+      .color();
+      transition: 2s ease-out width;
+    }
+
+    .result-percent-text {
+      #sizing > .get('default');
+      .padding();
+    }
+  }
+}
+
+}}

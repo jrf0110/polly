@@ -9,6 +9,11 @@ export default React.createClass({
       <div className="poll-header-hero">
         <div className="container">
           <h1>{this.props.poll.title}</h1>
+          <div className="secondary-description">
+            <div className="description-item">
+              Select {this.props.poll.options.numberOfVotesPerPoll}
+            </div>
+          </div>
         </div>
       </div>
     );

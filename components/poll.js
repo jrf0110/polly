@@ -7,16 +7,12 @@ import PollResults from './poll-results';
 
 export default React.createClass({
   render: function(){
-    var choices = this.props.poll.choices.map( choice => {
-      return <li>{choice.title}</li>
-    });
-
     return (
       <div className="poll">
         <PollHeader poll={this.props.poll} />
         {({ true:   <PollResults poll={this.props.poll} />
           , false:  <PollVoter poll={this.props.poll} />
-        })[ !!this.props.poll.has_voted ]}
+        })[ this.props.poll.doneVoting() ]}
       </div>
     );
   }

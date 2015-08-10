@@ -11,9 +11,18 @@ export default React.createClass({
     return (
       <div className="poll-voter">
         <div className="container">
-          <p>Select {this.props.poll.options.numberOfVotesPerPoll}</p>
           <div className="poll-choices">
             {choices}
+          </div>
+        </div>
+        <div className="poll-voter-footer">
+          <div className="container">
+            <div className="actions">
+              <button
+                disabled={this.props.poll.isSaving() || !this.props.poll.hasMetMaximumNumberOfVotes() }
+                className="vote-btn"
+                onClick={this.onVoteBtnClick}>Vote</button>
+            </div>
           </div>
         </div>
       </div>
@@ -21,18 +30,18 @@ export default React.createClass({
   }
 
 , renderPollChoice: function( choice ){
-    var isChecked = this.props.poll.session_responses.some( function( id ){
+    var isChecked = this.props.poll.pending_session_responses.some( function( id ){
       return id === choice.id;
     });
 
     var classes = ['poll-choice'];
 
-    if ( !isChecked && this.doneVoting() ){
+    if ( !isChecked && this.props.poll.hasMetMaximumNumberOfVotes() ){
       classes.push('disabled');
     }
 
     return (
-      <div className={classes.join(' ')} key={choice.id} onClick={this.onResponseChange.bind( null, choice.id )}>
+      <div className={classes.join(' ')} key={choice.id} onClick={this.onResponseClick.bind( null, choice.id )}>
         <div className="poll-choice-col input-wrapper">
           <CheckBox
             checked={isChecked}
@@ -43,8 +52,9 @@ export default React.createClass({
     );
   }
 
-, doneVoting: function(){
-    return this.props.poll.session_responses.length >= this.props.poll.options.numberOfVotesPerPoll;
+, onResponseClick: function( id, e ){
+    if ( e.target.classList.contains('checkbox-facade') ) return;
+    this.onResponseChange( id );
   }
 
 , onResponseChange: function( id ){
@@ -55,13 +65,23 @@ export default React.createClass({
       });
     }
 
-    if ( this.doneVoting() ){
+    if ( this.props.poll.doneVoting() ){
       return;
     }
 
     return dispatcher.dispatch({
       type: 'ADD_RESPONSE'
     , id:   id
+    });
+  }
+
+, onVoteBtnClick: function( e ){
+    if ( this.props.poll.isSaving() ){
+      return;
+    }
+
+    return dispatcher.dispatch({
+      type: 'SAVE_RESPONSES'
     });
   }
 });

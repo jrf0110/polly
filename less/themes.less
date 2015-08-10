@@ -22,6 +22,7 @@
 #themes {
   .get( @theme ) when ( @theme = 'default' ){ #themes > #default(); }
   .get( @theme ) when ( @theme = 'neon-purple' ){ #themes > #neon-purple(); }
+  .get( @theme ) when ( @theme = 'secondary' ){ #themes > #secondary(); }
 
   .standard( @text-color, @background ){
     .color(){
@@ -39,6 +40,16 @@
     @tertiary:      #1A57FF;
     @text-color:    #333;
     @background:    #fff;
+
+    #themes > .standard( @text-color, @background );
+  }
+  
+  #secondary {
+    @primary:       #1A57FF;
+    @secondary:     #1A57FF;
+    @tertiary:      #1A57FF;
+    @text-color:    #fff;
+    @background:    #aaa;
 
     #themes > .standard( @text-color, @background );
   }

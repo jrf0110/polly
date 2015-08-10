@@ -17,6 +17,7 @@
 @import "./components/poll-editor.less";
 @import "./components/poll-header-hero.less";
 @import "./components/poll-voter.less";
+@import "./components/poll-results-list.less";
 
 html, body {
   font-family: 'Lato', sans-serif;
@@ -52,9 +53,16 @@ input {
 #components > #checkbox > .init();
 #components > #poll-header-hero > .init();
 #components > #poll-voter > .init();
+#components > #poll-results-list > .init();
 
 #components > .input-placeholder( @font-family: 'Lato' );
 
 .page > .poll {
   flex: 1;
+}
+
+.poll-results-list,
+.poll-voter {
+  #sizing > .get('default');
+  .padding-vertical();
 }
