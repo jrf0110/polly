@@ -42,7 +42,7 @@ export default React.createClass({
     };
 
     return (
-      <li className="poll-result">
+      <li className="poll-result" key={result.id}>
         <div className="poll-result-col result-percent-col">
           <div className="result-percent-background">
               <div className="result-percent-text">{result.percent}%</div>

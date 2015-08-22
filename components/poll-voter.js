@@ -19,7 +19,7 @@ export default React.createClass({
           <div className="container">
             <div className="actions">
               <button
-                disabled={this.props.poll.isSaving() || !this.props.poll.hasMetMaximumNumberOfVotes() }
+                disabled={this.props.poll.isSaving() || this.props.poll.pending_session_responses.length === 0}
                 className="vote-btn"
                 onClick={this.onVoteBtnClick}>Vote</button>
             </div>
@@ -63,6 +63,10 @@ export default React.createClass({
         type: 'REMOVE_RESPONSE'
       , id:   id
       });
+    }
+
+    if ( this.props.poll.hasMetMaximumNumberOfVotes() ){
+      return;
     }
 
     if ( this.props.poll.doneVoting() ){

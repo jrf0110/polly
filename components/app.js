@@ -9,9 +9,7 @@ export default React.createClass({
 
 , componentDidMount: function(){
     PollStore.on('create', function(){
-      var poll = PollStore.get();
-      console.log('Transitioning to', '/polls/' + poll.id );
-      this.transitionTo( '/polls/' + poll.id );
+      this.transitionTo( '/polls/' + PollStore.get().id );
     }.bind( this ));
   }
 

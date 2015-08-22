@@ -2,6 +2,9 @@ module.exports = require('stampit')
   .compose( require('./') )
   .compose( require('../../lib/stampit-rest')({
     baseUrl: '/api/polls'
+    // Since the response comes back with the Poll object
+    // do not extend instances with res.body
+  , extendWithResult: false
   }))
   .methods({
     url: function(){
@@ -15,4 +18,4 @@ module.exports = require('stampit')
 
       return url.join('/');
     }
-  })
+  });

@@ -36,7 +36,9 @@ PollMiddleware.get = function( options ){
     };
 
     req.poll = Poll.create({ id: m.value( options.idLookup )( req, res ) });
-    req.poll.fetch( fetchOptions, next );
+    req.poll.fetch( fetchOptions, function( error, poll ){
+      return next( error );
+    });
   };
 };
 

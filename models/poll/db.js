@@ -3,10 +3,15 @@ var utils = require('../../lib/utils');
 
 module.exports = require('stampit')()
   .compose( require('./') )
+  .enclose( function(){
+    Object.defineProperty( this, 'dal', {
+      enumerable: false
+    , configurable: false
+    , value: db.polls
+    });
+  })
   .methods({
-    dal: db.polls
-
-  , fetch: function( options, callback ){
+    fetch: function( options, callback ){
       if ( typeof options === 'function' ){
         callback = options;
         options = {};

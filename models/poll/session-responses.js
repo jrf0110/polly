@@ -53,12 +53,20 @@ module.exports = require('stampit')()
           , poll_choice_id: choiceId
           , poll_id:        this.id
           })
-          .save( done );
+          .save( function( error, poll ){
+            if ( error ){
+              return done( error );
+            }
+
+            this.stats = poll.stats;
+            this.session_responses = poll.session_responses;
+
+            done( null, this );
+          }.bind( this ));
       }.bind( this );
 
-      utils.async.each( this.pending_session_responses, onSessionResponse, ( error )=>{
+      utils.async.eachSeries( this.pending_session_responses, onSessionResponse, ( error )=>{
         this.is_saving = false;
-        this.session_responses = this.pending_session_responses;
         this.pending_session_responses = [];
 
         return callback( error, this );
@@ -72,7 +80,7 @@ module.exports = require('stampit')()
     }
 
   , doneVoting: function(){
-      return this.session_responses.length >= this.options.numberOfVotesPerPoll;
+      return this.session_responses.length > 0;
     }
 
   , hasMetMaximumNumberOfVotes: function(){

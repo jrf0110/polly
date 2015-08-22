@@ -13,8 +13,10 @@ router.get('/polls'
 
 // Get Poll
 router.get('/polls/:id'
+, m.logger.info('get /api/polls', m.value('req.params.id'))
 , m.db.where({ id: m.value('req.params.id', 'number') })
 , PollMiddleware.get()
+, m.logger.info('got poll', m.value('req.poll'))
 , m.json( m.value('req.poll') )
 );
 

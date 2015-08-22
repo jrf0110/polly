@@ -21,10 +21,9 @@ module.exports = function( options ){
 
   app.use( require('cookie-parser')() );
   app.use( require('express-dirac-session')( config.http.session ) );
-  app.use( m.hydrate.init() );
 
-  app.get('/', routes.page('home') );
-  app.get('/polls/:id', routes.page('poll') );
+  app.get('/', m.hydrate.init(), routes.page('home') );
+  app.get('/polls/:id', m.hydrate.init(), routes.page('poll') );
   
   app.use( '/api', require('./api') );
 

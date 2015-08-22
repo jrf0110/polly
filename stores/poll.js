@@ -80,6 +80,7 @@ class PollStore extends EventEmitter {
               return this.emit( 'error', action.error );
             }
 
+            console.log('change', poll, poll.doneVoting());
             this.emit('change');
           });
         break;
