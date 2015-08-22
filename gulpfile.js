@@ -78,7 +78,7 @@ gulp.task( 'alias-modules', function(){
   require('alias-module')( 'config', __dirname + '/config/index.js' );
 });
 
-gulp.task( 'db:create', ['alias-modules'], function( done ){
+gulp.task( 'db:create', function( done ){
   require('pg-destroy-create-db')
     ( config.db.connectionStr )
     .create( done );

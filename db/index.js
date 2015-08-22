@@ -1,7 +1,7 @@
 var fs      = require('fs');
 var path    = require('path');
 var dirac   = require('dirac');
-var config  = require('config');
+var config  = require('../config');
 
 require('./type-parsers');
 
