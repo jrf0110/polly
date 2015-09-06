@@ -1,0 +1,44 @@
+////////////
+// Navbar //
+////////////
+
+@import "../themes.less";
+@import "../sizing.less";
+
+#components { #navbar {
+  .init(){
+    .navbar {
+      display: flex;
+      flex-direction: row;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+
+      #sizing > .get('default');
+      .padding-vertical();
+
+      // For now, just assume the neon purple theme
+      #themes > .get('neon-purple');
+      .color();
+      border-bottom: 2px solid;
+
+      .nav {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+
+        }
+
+        a {
+          .padding-horizontal();
+        }
+      }
+    }
+  }
+}}

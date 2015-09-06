@@ -3,6 +3,7 @@ import config from 'config';
 import Poll from '../poll';
 import PollActions from '../../actions/poll';
 import PollStore from '../../stores/poll';
+import Navbar from '../navbar';
 
 function getState(){
   return {
@@ -31,6 +32,7 @@ export default React.createClass({
 , render: function(){
     return (
       <div className="page">
+        <Navbar poll={this.state.poll} />
         <Poll poll={this.state.poll} />
       </div>
     );
