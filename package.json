@@ -27,7 +27,6 @@
     "dirac": "^0.4.12",
     "dirac-ensure-targets": "^1.0.1",
     "dotty": "0.0.2",
-    "eslint": "^0.24.1",
     "express": "^4.12.3",
     "express-dirac-session": "^1.0.1",
     "express-locals": "^1.0.1",

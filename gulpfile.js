@@ -3,8 +3,8 @@ require('babel/register');
 // process.env.NODE_ENV = 'test';
 
 var fs        = require('fs');
+var path      = require('path');
 var gulp      = require('gulp');
-var pkg       = require('./package.json');
 var config    = require('./config');
 var utils     = require('./lib/utils');
 gulp.util     = require('gulp-util');
@@ -47,16 +47,7 @@ gulp.task( 'less', function(){
     .pipe( gulp.dest('public/dist') );
 });
 
-gulp.task( 'lint', function(){
-  // TODO: switch to eslint with babel support :(
-  // return gulp.src( scripts.lint )
-  //   .pipe( require('gulp-react')() )
-  //   .pipe( require('gulp-jshint')( pkg.jshint || {} ) )
-  //   .pipe( require('gulp-jshint').reporter('jshint-stylish') );
-});
-
 gulp.task( 'watch', function(){
-  gulp.watch( scripts.lint, ['lint'] );
   gulp.watch( scripts.public, ['compile-frontend-js'] );
   gulp.watch( ['less/*.less', 'less/**/*.less'], ['less'] );
   gulp.watch( ['db/scripts/functions.sql'], ['db:scripts'] );
@@ -66,7 +57,9 @@ gulp.task( 'server', ['alias-modules'], function( done ){
   require('./server')
     ({ logger: logger })
     .listen( config.http.port, function( error ){
-      if ( error ) return done( error );
+      if ( error ){
+        return done( error );
+      }
 
       gulp.util.log( 'Server started on port ' + gulp.util.colors.blue( config.http.port ) );
 
@@ -75,7 +68,7 @@ gulp.task( 'server', ['alias-modules'], function( done ){
 });
 
 gulp.task( 'alias-modules', function(){
-  require('alias-module')( 'config', __dirname + '/config/index.js' );
+  require('alias-module')( 'config', path.join( __dirname, '/config/index.js' ) );
 });
 
 gulp.task( 'db:create', function( done ){
@@ -117,7 +110,7 @@ gulp.task( 'db:fixtures', ['db:scripts'], function( done ){
 
 gulp.task( 'db:scripts', ['db:tables'], function( done ){
   require('./db').query(
-    fs.readFileSync( __dirname + '/db/scripts/functions.sql' ).toString()
+    fs.readFileSync( path.join( __dirname, '/db/scripts/functions.sql' ) ).toString()
   , done
   );
 });
@@ -126,7 +119,7 @@ gulp.task( 'db:deltas', ['db:tables'], function( done ){
   require('pg-delta')
     .run({
       connectionParameters: config.db.connectionStr
-    , deltasDir: __dirname + '/db/deltas'
+    , deltasDir: path.join( __dirname, '/db/deltas' )
     }, done );
 });
 
@@ -142,7 +135,7 @@ gulp.task( 'db:changes', [
 // gulp.task( 'db:reload', ['db:destroy'], ['db:create']);
 
 gulp.task( 'build', [
-  'lint', 'less', 'compile-frontend-js'
+  'less', 'compile-frontend-js'
 ]);
 
 gulp.task( 'default', [ 'build', 'db:changes', 'server', 'watch' ] );
