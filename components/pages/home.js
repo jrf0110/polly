@@ -1,17 +1,15 @@
 import React from 'react';
-import config from 'config';
 import PollStore from '../../stores/poll';
 import PollEditor from '../poll-editor';
-import Poll from '../../models/poll/db';
 import dispatcher from '../../lib/dispatcher';
 
 export default React.createClass({
   componentDidMount: function(){
-    dispatcher.dispatch({
-      type: 'CLEAR_POLL_ID'
-    });
-
     PollStore.on( 'change', this.onPollChange );
+
+    dispatcher.dispatch({
+      type: 'RESET_POLL'
+    });
   }
 
 , componentWillUnmount: function(){
@@ -27,7 +25,7 @@ export default React.createClass({
 , render: function(){
     return (
       <div className="page">
-        <PollEditor defaultNumChoices="3" poll={this.state.poll} />
+        <PollEditor defaultNumChoices="3" poll={this.state.poll} logger={this.props.logger} />
       </div>
     );
   }

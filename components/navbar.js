@@ -1,6 +1,5 @@
 import React from 'react';
 import * as Router from 'react-router';
-import config from 'config';
 
 export default React.createClass({
   mixins: [ Router.Navigation ]

@@ -1,8 +1,5 @@
-import $ from 'jquery';
 import React from 'react';
-import config from 'config';
 import utils from '../lib/utils';
-import Poll from '../models/poll';
 import PollChoice from '../models/poll-choice';
 import PollStore from '../stores/poll';
 import dispatcher from '../lib/dispatcher';
@@ -16,12 +13,6 @@ export default React.createClass({
   }
 
 , getChoicesJSX: function(){
-    var numFilled = this.props.poll.choices
-      .filter( function( choice ){
-        return choice && choice.title;
-      })
-      .length;
-
     return utils.range( Math.max(
         this.props.poll.choices.length + 1, this.props.defaultNumChoices
       ))
@@ -55,7 +46,7 @@ export default React.createClass({
             <input
               type="text"
               className="poll-title"
-              placeholder="Enter a title"
+              placeholder="Submit a poll"
               onChange={this.onTitleChange}
               value={this.props.poll.title} />
           </div>
@@ -118,7 +109,7 @@ export default React.createClass({
     var i = +e.target.getAttribute('data-index');
 
     if ( isNaN(i) ){
-      return console.warn('Choice changed, but we were unable to get the index');
+      return this.props.logger.warn('Choice changed, but we were unable to get the index');
     }
 
     dispatcher.dispatch({

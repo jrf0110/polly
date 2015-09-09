@@ -1,8 +1,5 @@
 import React from 'react';
 import * as Router from 'react-router';
-import config from 'config';
-import PollActions from '../actions/poll';
-import PollStore from '../stores/poll';
 
 export default React.createClass({
   mixins: [ Router.Navigation ]
@@ -20,7 +17,7 @@ export default React.createClass({
       <div className="poll-header-hero">
         <div className="container title-wrapper">
           <h1>{this.props.poll.title}</h1>
-          { !this.props.polll.doneVoting() ? secondaryDescription : null }
+          { !this.props.poll.doneVoting() ? secondaryDescription : null }
         </div>
       </div>
     );

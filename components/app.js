@@ -1,7 +1,5 @@
 import React from 'react';
 import * as Router from 'react-router';
-import config from 'config';
-import Head from './head';
 import PollStore from '../stores/poll';
 
 export default React.createClass({
@@ -16,7 +14,7 @@ export default React.createClass({
 , render: function(){
     return (
       <div id="app">
-        <Router.RouteHandler />
+        <Router.RouteHandler logger={this.props.logger} />
       </div>
     );
   }

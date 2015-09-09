@@ -1,5 +1,4 @@
 import React from 'react';
-import config from 'config';
 import Poll from '../poll';
 import PollActions from '../../actions/poll';
 import PollStore from '../../stores/poll';
@@ -32,8 +31,8 @@ export default React.createClass({
 , render: function(){
     return (
       <div className="page">
-        <Navbar poll={this.state.poll} />
-        <Poll poll={this.state.poll} />
+        <Navbar poll={this.state.poll} logger={this.props.logger} />
+        <Poll poll={this.state.poll} logger={this.props.logger} />
       </div>
     );
   }

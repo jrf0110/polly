@@ -1,7 +1,7 @@
 var utils = require('../../lib/utils');
 var dispatcher = require('../../lib/dispatcher');
 
-var hydrator = module.exports = function( options ){
+module.exports = function( options ){
   options = utils.defaults( options || {}, {
     path: '__data'
 

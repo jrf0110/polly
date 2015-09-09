@@ -18,8 +18,9 @@ class PollStore extends EventEmitter {
           this.emit( 'error', action.error );
         break;
 
-        case 'CLEAR_POLL_ID':
-          poll = Poll.create()
+        case 'RESET_POLL':
+          poll = Poll.create();
+          this.logger.info('poll changed to', poll);
           this.emit('change');
         break;
 
@@ -80,7 +81,6 @@ class PollStore extends EventEmitter {
               return this.emit( 'error', action.error );
             }
 
-            console.log('change', poll, poll.doneVoting());
             this.emit('change');
           });
         break;

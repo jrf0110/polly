@@ -3,6 +3,7 @@
 /////////
 
 @import (less) "http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic";
+@import (less) "https://fonts.googleapis.com/css?family=Amatic+SC:700";
 
 @import "./sizing.less";
 @import "./themes.less";
@@ -19,6 +20,7 @@
 @import "./components/poll-voter.less";
 @import "./components/poll-results-list.less";
 @import "./components/navbar.less";
+@import "./components/text-logo.less";
 
 html, body {
   font-family: 'Lato', sans-serif;
@@ -56,6 +58,7 @@ input {
 #components > #poll-header-hero > .init();
 #components > #poll-voter > .init();
 #components > #poll-results-list > .init();
+#components > #text-logo > .init( @font-family: 'Amatic SC' );
 
 #components > .input-placeholder( @font-family: 'Lato' );
 
