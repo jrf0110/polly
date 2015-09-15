@@ -7,7 +7,7 @@
 
 #components {
   #inputs {
-    .init(){
+    .init( @breakpoint: 500px ){
       max-width: 100%;
       border-style: solid;
       border-with: 3px;
@@ -21,6 +21,10 @@
       .theme-neon-purple &,
       &.theme-neon-purple {
         .theme('neon-purple');
+      }
+
+      @media screen and ( max-width: @breakpoint ){
+        
       }
     }
 

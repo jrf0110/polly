@@ -6,7 +6,7 @@
 @import "./buttons.less";
 
 #components {
-  .poll-editor(){
+  .poll-editor( @breakpoint: 500px ){
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -17,7 +17,6 @@
       flex: 1;
       #sizing > .get('large');
       .margin-vertical();
-      // margin-bottom: @bottom;
     }
 
     .poll-form-group {
@@ -87,6 +86,25 @@
         #components > #buttons > .size('extra-large');
         #sizing > .get('default');
           .font();
+      }
+    }
+
+    @media screen and ( max-width: @breakpoint ){
+      .poll-form-group > input {
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+
+      .poll-editor-footer {
+        padding: 20px 0;
+
+        > .container {
+          flex-direction: column;
+        }
+      }
+
+      .action-wrapper {
+        margin-top: 20px;
       }
     }
   }

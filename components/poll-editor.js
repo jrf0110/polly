@@ -46,7 +46,7 @@ export default React.createClass({
             <input
               type="text"
               className="poll-title"
-              placeholder="Submit a poll"
+              placeholder="Enter a question"
               onChange={this.onTitleChange}
               value={this.props.poll.title} />
           </div>

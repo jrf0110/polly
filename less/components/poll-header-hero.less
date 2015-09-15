@@ -7,7 +7,7 @@
 
 #components {
 #poll-header-hero {
-  .init(){
+  .init( @breakpoint: 500px ){
     .poll-header-hero {
       #sizing > .get('hella-large');
       .font();
@@ -28,12 +28,8 @@
         font-weight: 300;
       }
 
-      .home-anchor {
-        display: inline-block;
-        .color();
-        #sizing > .get('large');
-        .padding-horizontal();
-        text-decoration: none;
+      @media screen and ( max-width: @breakpoint ){
+        font-size: 14px;
       }
     }
   }
