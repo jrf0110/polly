@@ -5,6 +5,7 @@
 #sizing {
   .get( @size ) when ( @size = 'default' ){ #sizing > #default(); }
   .get( @size ) when ( @size = 'small' ){ #sizing > #small(); }
+  .get( @size ) when ( @size = 'extra-small' ){ #sizing > #extra-small(); }
   .get( @size ) when ( @size = 'large' ){ #sizing > #large(); }
   .get( @size ) when ( @size = 'extra-large' ){ #sizing > #extra-large(); }
   .get( @size ) when ( @size = 'hella-large' ){ #sizing > #hella-large(); }
@@ -58,6 +59,12 @@
 
   #small {
     #sizing > .standard( 14px, 12px, 12px, 12px, 12px );
+    padding-left: 6px;
+    paddin-right: 6px;
+  }
+
+  #extra-small {
+    #sizing > .standard( 12px, 6px, 6px, 6px, 6px );
   }
 
   #large {
