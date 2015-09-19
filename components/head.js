@@ -1,11 +1,10 @@
 import React from 'react';
-import { RouteHandler } from 'react-router';
-import config from 'config';
 
 export default class App extends React.Component {
   render(){
     return (
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="/dist/app.css" />
       </head>
     );
