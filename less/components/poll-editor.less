@@ -49,8 +49,8 @@
 
         &:focus {
           outline: none;
-          #sizing > .get('large');
-            .padding-vertical();
+          padding-top: 1.2em;
+          padding-bottom: 1.2em;
           border-color: rgba( 0, 0, 0, 0.3 );
           color: @text-color;
         }
@@ -91,8 +91,18 @@
 
     @media screen and ( max-width: @breakpoint ){
       .poll-form-group > input {
-        padding-left: 6px;
-        padding-right: 6px;
+        #sizing > .get('small');
+          .padding();
+          .font();
+
+        &.poll-title {
+          #sizing > .get('small');
+            .padding-horizontal();
+          #sizing > .get('default');
+            .padding-vertical();
+          #sizing > .get('large');
+            .font();
+        }
       }
 
       .poll-editor-footer {

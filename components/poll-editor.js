@@ -12,6 +12,10 @@ export default React.createClass({
     };
   }
 
+, componentDidMount: function(){
+    React.findDOMNode( this.refs.pollTitle ).focus();
+  }
+
 , getChoicesJSX: function(){
     return utils.range( Math.max(
         this.props.poll.choices.length + 1, this.props.defaultNumChoices
@@ -23,6 +27,7 @@ export default React.createClass({
           <div className="poll-choice poll-form-group" key={i}>
             <input
               type="text"
+              ref="pollTitle"
               className="poll-choice-input"
               placeholder={placeholder}
               data-index={i}
