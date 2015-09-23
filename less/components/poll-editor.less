@@ -107,9 +107,17 @@
 
       .poll-editor-footer {
         padding: 20px 0;
+        #sizing > .get('small');
+        .font();
 
         > .container {
           flex-direction: column;
+        }
+
+        .input-wrapper {
+          margin-right: 10px;
+          width: auto;
+          max-width: 70px;
         }
 
         [type="submit"] {
