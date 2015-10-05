@@ -6,7 +6,7 @@
 @import "../sizing.less";
 
 #components { #navbar {
-  .init(){
+  .init( @breakpoint: 500px ){
     .navbar {
       display: flex;
       flex-direction: row;
@@ -50,6 +50,12 @@
 
         a {
           .padding();
+        }
+      }
+
+      @media screen and ( max-width: @breakpoint ){
+        .text-logo {
+          font-size: 22px;
         }
       }
     }

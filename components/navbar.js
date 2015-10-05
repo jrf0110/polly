@@ -1,6 +1,8 @@
 import React from 'react';
 import * as Router from 'react-router';
 
+var Link = Router.Link;
+
 export default React.createClass({
   mixins: [ Router.Navigation ]
 
@@ -8,19 +10,14 @@ export default React.createClass({
     return (
       <div className="navbar">
         <div className="container">
-          <a href="/" className="text-logo" onClick={this.onHomeClick}>Polly</a>
+          <Link to="top" className="text-logo">Polly</Link>
           <ul className="nav">
             <li>
-              <a href="/" className="home-anchor" onClick={this.onHomeClick}>Create your own poll</a>
+              <Link to="top" className="home-anchor">Create your own poll</Link>
             </li>
           </ul>
         </div>
       </div>
     );
-  }
-
-, onHomeClick: function( e ){
-    e.preventDefault();
-    this.transitionTo('/');
   }
 });

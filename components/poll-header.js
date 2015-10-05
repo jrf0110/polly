@@ -22,9 +22,4 @@ export default React.createClass({
       </div>
     );
   }
-
-, onHomeClick: function( e ){
-    e.preventDefault();
-    this.transitionTo('/');
-  }
 });

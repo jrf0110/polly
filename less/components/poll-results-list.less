@@ -7,7 +7,7 @@
 
 #components { #poll-results-list {
 
-.init(){
+.init( @breakpoint: 500px ){
   .poll-results-list {
     list-style: none;
     padding: 0;
@@ -57,6 +57,28 @@
     .result-percent-text {
       #sizing > .get('default');
       .padding();
+    }
+
+    @media screen and ( max-width: @breakpoint ){
+      .poll-result {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .poll-result-col,
+      .result-percent-text {
+        width: 100%;
+        padding: 0;
+      }
+
+      .result-percent-col {
+        height: 12px;
+      }
+
+      .result-percent-text {
+        #sizing > .get('extra-small');
+        .font();
+      }
     }
   }
 }
