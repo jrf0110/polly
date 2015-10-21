@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import utils from '../lib/utils';
 import PollChoice from '../models/poll-choice';
 import PollStore from '../stores/poll';
@@ -13,7 +14,7 @@ export default React.createClass({
   }
 
 , componentDidMount: function(){
-    React.findDOMNode( this.refs.pollTitle ).focus();
+    ReactDOM.findDOMNode( this.refs.pollTitle ).focus();
   }
 
 , getChoicesJSX: function(){
@@ -22,14 +23,13 @@ export default React.createClass({
       ))
       .map( i => this.props.poll.choices[ i ] || PollChoice.create() )
       .map( ( choice, i )=> {
-        var placeholder = 'Choice #' + ( i + 1 );
         return (
           <div className="poll-choice poll-form-group" key={i}>
             <input
               type="text"
               ref="pollTitle"
               className="poll-choice-input"
-              placeholder={placeholder}
+              placeholder={'Choice #' + ( i + 1 )}
               data-index={i}
               onChange={this.onChoiceChange}
               value={choice.title} />

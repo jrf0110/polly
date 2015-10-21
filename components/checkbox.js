@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 export default React.createClass({
   getDefaultProps: function(){
@@ -28,7 +29,7 @@ export default React.createClass({
   }
 
 , getInputEl: function(){
-    return React.findDOMNode( this.refs.inputEl );
+    return ReactDOM.findDOMNode( this.refs.inputEl );
   }
 
 , toggle: function(){

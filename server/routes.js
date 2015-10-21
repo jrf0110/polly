@@ -1,27 +1,29 @@
-import React          from 'react';
-import Router         from 'react-router';
-import m              from './middleware';
-import Head           from '../components/head';
-import PollMiddleware from '../models/poll/middleware';
-import HomePage       from '../components/pages/home';
-import PollPage       from '../components/pages/poll';
-import dispatcher     from '../lib/dispatcher';
-import reactRoutes    from './react-routes';
+import React              from 'react';
+import { renderToString } from 'react-dom/server';
+import { match }          from 'react-router';
+import { RoutingContext } from 'react-router';
+import m                  from './middleware';
+import Head               from '../components/head';
+import PollMiddleware     from '../models/poll/middleware';
+import HomePage           from '../components/pages/home';
+import PollPage           from '../components/pages/poll';
+import dispatcher         from '../lib/dispatcher';
+import reactRoutes        from './react-routes';
 
 var routes = module.exports = Object.create({
   head: function(){
     return function( req, res, next ){
-      res.write('<!DOCTYPE html><html>')
-      res.write( React.renderToString( <Head /> ) );
-      res.write('<body><div id="app">');
+      res.write('<!DOCTYPE html><html>');
+      res.write( renderToString( <Head /> ) );
+      res.write('<body><div id="app-container">');
       return next();
     };
   }
 
 , router: function(){
     return function( req, res, next ){
-      Router.run( reactRoutes, req.path, ( Handler ) => {
-        res.write( React.renderToString( <Handler path={req.path} /> ) );
+      match({ routes: reactRoutes, location: req.url }, ( error, redirectLoc, props )=>{
+        res.write( renderToString( <RoutingContext {...props} /> ));
         return next();
       });
     }
@@ -54,7 +56,6 @@ routes.pages.home = [
 routes.pages.poll = [
   routes.head()
 , PollMiddleware.get()
-, m.hydrate( 'poll', m.value('req.poll') )
 , function( req, res, next ){
     dispatcher.dispatch({
       type: 'RECEIVE_POLL'
@@ -64,5 +65,6 @@ routes.pages.poll = [
     return next();
   }
 , routes.router()
+, m.hydrate( 'poll', m.value('req.poll') )
 , routes.end()
 ];

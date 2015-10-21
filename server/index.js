@@ -22,17 +22,10 @@ module.exports = function( options ){
   app.use( require('cookie-parser')() );
   app.use( require('express-dirac-session')( config.http.session ) );
 
-  app.get('/', m.hydrate.init(), routes.page('home') );
-  app.get('/polls/:id', m.hydrate.init(), routes.page('poll') );
+  app.get('/', routes.page('home') );
+  app.get('/polls/:id', routes.page('poll') );
   
   app.use( '/api', require('./api') );
-
-  // var reactRoutes = require('./react-routes');
-  // app.use( function( req, res ){
-  //   Router.run( reactRoutes, req.path, function( Handler ){
-  //     res.send('<!DOCTYPE html>' + React.renderToString(<Handler path={req.path} />));
-  //   });
-  // });
 
   app.use( m.error() );
 

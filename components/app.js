@@ -1,21 +1,27 @@
 import React from 'react';
 import * as Router from 'react-router';
 import PollStore from '../stores/poll';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default React.createClass({
-  mixins: [ Router.Navigation ]
+  mixins: [ Router.History ]
 
 , componentDidMount: function(){
-    PollStore.on('create', function(){
-      this.transitionTo( '/polls/' + PollStore.get().id );
-    }.bind( this ));
+    PollStore.on( 'create', () => {
+      this.history.pushState( null, '/polls/' + PollStore.get().id );
+    });
   }
 
 , render: function(){
     return (
-      <div id="app">
-        <Router.RouteHandler logger={this.props.logger} />
-      </div>
+      <CSSTransitionGroup
+        transitionName="test"
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={300}>
+        <div id="app">
+          {this.props.children}
+        </div>
+      </CSSTransitionGroup>
     );
   }
-})
+});

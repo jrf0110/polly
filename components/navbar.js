@@ -10,10 +10,10 @@ export default React.createClass({
     return (
       <div className="navbar">
         <div className="container">
-          <Link to="top" className="text-logo">Polly</Link>
+          <Link to="/" className="text-logo">Polly</Link>
           <ul className="nav">
             <li>
-              <Link to="top" className="home-anchor">Create your own poll</Link>
+              <Link to="/" className="home-anchor">Create your own poll</Link>
             </li>
           </ul>
         </div>

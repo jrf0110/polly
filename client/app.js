@@ -1,6 +1,8 @@
 import $ from 'jquery';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Router from 'react-router';
+import createBrowserHistory from 'history/lib/createBrowserHistory'
 import routes from '../server/react-routes';
 import logger from './lib/logger';
 import dispatcher from '../lib/dispatcher';
@@ -22,14 +24,12 @@ Hydrator({ logger }).hydrate();
 $(function(){
   logger.info('Domready');
 
-  Router.run(routes, Router.HistoryLocation, (Handler) => {
-    logger.info('Router listening');
+  ReactDOM.render(
+    <Router history={createBrowserHistory()}>
+      {routes.props.children}
+    </Router>
+  , document.getElementById('app-container')
+  );
 
-    React.render(
-      <Handler path={window.location.pathname} logger={logger} />
-    , document.body
-    );
-
-    logger.info('Welcome to Polly!');
-  });
+  logger.info('Welcome to Polly!');
 });
