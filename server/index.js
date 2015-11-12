@@ -1,6 +1,4 @@
 var express         = require('express');
-var React           = require('react');
-var Router          = require('react-router');
 var config          = require('config');
 var m               = require('./middleware');
 var routes          = require('./routes');
@@ -24,6 +22,7 @@ module.exports = function( options ){
 
   app.get('/', routes.page('home') );
   app.get('/polls/:id', routes.page('poll') );
+  app.get('/test-pages', routes.page('testPages') );
   
   app.use( '/api', require('./api') );
 

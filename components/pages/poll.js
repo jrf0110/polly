@@ -15,6 +15,12 @@ export default React.createClass({
     return getState();
   }
 
+, getDefaultProps: function(){
+    return {
+      key: 'home'
+    };
+  }
+
 , componentDidMount: function(){
     PollStore.on( 'change', this._onChange );
 
@@ -30,7 +36,7 @@ export default React.createClass({
 
 , render: function(){
     return (
-      <div className="page">
+      <div className="page page-poll">
         <Navbar poll={this.state.poll} logger={this.props.logger} />
         <Poll poll={this.state.poll} logger={this.props.logger} />
       </div>

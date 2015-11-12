@@ -1,5 +1,3 @@
-var PollResponse = require('../poll-response');
-
 module.exports = require('stampit')()
   .state({
     title:    null

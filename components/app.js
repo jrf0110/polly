@@ -7,21 +7,27 @@ export default React.createClass({
   mixins: [ Router.History ]
 
 , componentDidMount: function(){
-    PollStore.on( 'create', () => {
-      this.history.pushState( null, '/polls/' + PollStore.get().id );
-    });
+    PollStore.on( 'create', this.onPollCreate );
+  }
+
+, componentWillUnmount: function(){
+    PollStore.removeListener( 'create', this.onPollCreate );
   }
 
 , render: function(){
     return (
-      <CSSTransitionGroup
-        transitionName="test"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={300}>
-        <div id="app">
-          {this.props.children}
-        </div>
-      </CSSTransitionGroup>
+      <div id="app">
+        <CSSTransitionGroup
+          transitionName="page"
+          transitionEnterTimeout={800}
+          transitionLeaveTimeout={800}>
+            {React.cloneElement(this.props.children || <div />, { key: this.props.location.pathname })}
+        </CSSTransitionGroup>
+      </div>
     );
+  }
+
+, onPollCreate: function(){
+    this.history.pushState( null, '/polls/' + PollStore.get().id );
   }
 });

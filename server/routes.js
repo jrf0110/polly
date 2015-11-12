@@ -68,3 +68,19 @@ routes.pages.poll = [
 , m.hydrate( 'poll', m.value('req.poll') )
 , routes.end()
 ];
+
+routes.pages.testPages = [
+  routes.head()
+, PollMiddleware.get({ idLookup: 'req.query.poll_id' })
+, function( req, res, next ){
+    dispatcher.dispatch({
+      type: 'RECEIVE_POLL'
+    , poll: req.poll
+    });
+
+    return next();
+  }
+, routes.router()
+, m.hydrate( 'poll', m.value('req.poll') )
+, routes.end()
+];

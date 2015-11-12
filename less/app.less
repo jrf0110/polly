@@ -21,6 +21,7 @@
 @import "./components/poll-results-list.less";
 @import "./components/navbar.less";
 @import "./components/text-logo.less";
+@import "./components/page-transitions.less";
 
 * {
   box-sizing: border-box;
@@ -45,7 +46,7 @@ html, body {
 }
 
 // Ensure animation thingy is flexin'
-#app-container > span[data-reactid] {
+#app > span[data-reactid] {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -77,6 +78,7 @@ input {
 #components > #text-logo > .init( @font-family: 'Amatic SC' );
 
 #components > .input-placeholder( @font-family: 'Lato' );
+#components > #page-transitions > .init();
 
 .page > .poll {
   flex: 1;

@@ -4,12 +4,20 @@ import PollEditor from '../poll-editor';
 import dispatcher from '../../lib/dispatcher';
 
 export default React.createClass({
-  componentDidMount: function(){
+  getDefaultProps: function(){
+    return {
+      key: 'home'
+    };
+  }
+
+, componentDidMount: function(){
     PollStore.on( 'change', this.onPollChange );
 
     dispatcher.dispatch({
       type: 'RESET_POLL'
     });
+
+    console.log('page', this.props.key);
   }
 
 , componentWillUnmount: function(){
@@ -24,7 +32,7 @@ export default React.createClass({
 
 , render: function(){
     return (
-      <div className="page">
+      <div className="page page-home">
         <PollEditor defaultNumChoices="3" poll={this.state.poll} logger={this.props.logger} />
       </div>
     );

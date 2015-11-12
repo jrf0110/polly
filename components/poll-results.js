@@ -1,7 +1,5 @@
 import React from 'react';
-import config from 'config';
 import utils from '../lib/utils';
-import PollActions from '../actions/poll';
 
 export default React.createClass({
   getInitialState: function(){
@@ -11,9 +9,13 @@ export default React.createClass({
   }
 
 , componentDidMount: function(){
-    setTimeout( this.setState.bind( this, {
+    this.shouldShowPercentsTimeout = setTimeout( this.setState.bind( this, {
       shouldShowPercents: true
     }), 1000 );
+  }
+
+, componentWillUnmount: function(){
+    clearTimeout( this.shouldShowPercentsTimeout );
   }
 
 , render: function(){
