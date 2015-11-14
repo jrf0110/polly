@@ -1,1 +1,1 @@
-web: node workers/web
+web: gulp build && node workers/web
