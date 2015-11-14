@@ -1,7 +1,7 @@
 var path = require('path');
 
 module.exports = {
-  connectionStr: 'postgres://localhost:5432/polly'
+  connectionStr: process.env['POSTGRES_URL'] || 'postgres://localhost:5432/polly'
 , extensions: [
     'uuid-ossp'
   , 'hstore'
