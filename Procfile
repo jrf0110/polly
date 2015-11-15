@@ -1,1 +1,1 @@
-web: gulp build && node workers/web
+web: npm start
