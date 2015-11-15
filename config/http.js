@@ -23,6 +23,6 @@ if ( process.env['NODE_ENV'] === 'test' ){
 }
 
 if ( process.env['NODE_ENV'] === 'production' ){
-  config.port = process.env['PORT'];
+  config.port = 80;
   config.host = 'polly.j0.hn';
 }
