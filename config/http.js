@@ -1,5 +1,5 @@
 var config = module.exports = {
-  port: 3062
+  port: process.env.PORT || 3062
 , concurrency: require('os').cpus().length
 , host: 'localhost'
 , protocol: 'http'
@@ -11,7 +11,7 @@ var config = module.exports = {
   }
 
 , session: {
-    secret:  process.env['POLLY_SESSION_SECRET'] || 'blah'
+    secret:  process.env.POLLY_SESSION_SECRET || 'blah'
   , cookie: { maxAge: 14 * 24 * 60 * 60 * 1000 }
   , resave: true
   , saveUninitialized: true
@@ -23,6 +23,5 @@ if ( process.env['NODE_ENV'] === 'test' ){
 }
 
 if ( process.env['NODE_ENV'] === 'production' ){
-  config.port = 80;
   config.host = 'polly.j0.hn';
 }
