@@ -36,6 +36,12 @@ gulp.task( 'compile-frontend-js', ['alias-modules'], function(){
 
   require('browserify-incremental')( b, { cacheFile: './browserify-cache.json' } );
 
+  try {
+    fs.mkdirSync('./public/dist');
+  } catch ( e ){
+    
+  }
+
   return b
     .bundle()
     .pipe( fs.createWriteStream('./public/dist/app.js') );
