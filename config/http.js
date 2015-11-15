@@ -21,3 +21,8 @@ var config = module.exports = {
 if ( process.env['NODE_ENV'] === 'test' ){
   config.port = 3063;
 }
+
+if ( process.env['NODE_ENV'] === 'production' ){
+  config.port = process.env['PORT'];
+  config.host = 'polly.j0.hn';
+}
