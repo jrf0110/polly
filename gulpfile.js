@@ -5,6 +5,7 @@ require('babel/register');
 var fs        = require('fs');
 var path      = require('path');
 var gulp      = require('gulp');
+var pkg       = require('./package.json');
 var config    = require('./config');
 var utils     = require('./lib/utils');
 gulp.util     = require('gulp-util');
@@ -28,7 +29,7 @@ scripts.lint = scripts.public.concat([
 , 'client/*.js', 'client/**/*.js'
 ]);
 
-gulp.task( 'compile-frontend-js', ['alias-modules'], function(){
+gulp.task( 'compile-frontend-js', ['alias-modules', 'assets:create-dist-dir'], function(){
   var b = require('browserify')( './client/app.js', utils.extend(
       require('browserify-incremental').args, { debug: true }
     ))
@@ -36,18 +37,12 @@ gulp.task( 'compile-frontend-js', ['alias-modules'], function(){
 
   require('browserify-incremental')( b, { cacheFile: './browserify-cache.json' } );
 
-  try {
-    fs.mkdirSync('./public/dist');
-  } catch ( e ){
-    
-  }
-
   return b
     .bundle()
-    .pipe( fs.createWriteStream('./public/dist/app.js') );
+    .pipe( fs.createWriteStream() );
 });
 
-gulp.task( 'less', function(){
+gulp.task( 'less', ['assets:create-dist-dir'] function(){
   return gulp.src('less/app.less')
     .pipe( require('gulp-less')() )
     .pipe( gulp.dest('public/dist') );
@@ -138,7 +133,22 @@ gulp.task( 'db:changes', [
   'db:extensions', 'db:types', 'db:tables', 'db:scripts', 'db:deltas'
 ]);
 
-// gulp.task( 'db:reload', ['db:destroy'], ['db:create']);
+gulp.task( 'assets:create-dist-dir', function( done ){
+  try {
+    fs.mkdirSync('./public/dist');
+  } catch ( e ){}
+
+  try {
+    fs.mkdirSync( './public/dist/' + pkg.version );
+  } catch ( e ){}
+
+  done();
+});
+
+gulp.task( 'assets:upload', function(){
+  return gulp.src( './public/dist/' + pkg.version )
+    .pipe( s3( require('./configs/aws') ) );
+});
 
 gulp.task( 'build', [
   'less', 'compile-frontend-js'

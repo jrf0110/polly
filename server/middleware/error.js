@@ -1,7 +1,7 @@
 var errors = require('../../lib/errors');
 
-module.exports = function( options ){
-  return function( error, req, res, next ){
+module.exports = function(){
+  return function( error, req, res ){
 
     if ( error instanceof Error ){
       console.error( error );
