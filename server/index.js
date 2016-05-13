@@ -1,5 +1,5 @@
 var express         = require('express');
-var config          = require('config');
+var config          = require('../config');
 var m               = require('./middleware');
 var routes          = require('./routes');
 
@@ -13,9 +13,7 @@ module.exports = function( options ){
 
   app.locals.config = config;
 
-  if ( config.env === 'dev' ){
-    app.use( express.static( __dirname + '/../public' ) );
-  }
+  app.use( express.static( __dirname + '/../public' ) );
 
   app.use( require('cookie-parser')() );
   app.use( require('express-dirac-session')( config.http.session ) );

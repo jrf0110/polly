@@ -9,12 +9,13 @@ import HomePage           from '../components/pages/home';
 import PollPage           from '../components/pages/poll';
 import dispatcher         from '../lib/dispatcher';
 import reactRoutes        from './react-routes';
+import pkg                from '../package.json';
 
 var routes = module.exports = Object.create({
   head: function(){
     return function( req, res, next ){
       res.write('<!DOCTYPE html><html>');
-      res.write( renderToString( <Head /> ) );
+      res.write( renderToString( <Head version={pkg.version} /> ) );
       res.write('<body><div id="app-container">');
       return next();
     };
@@ -31,7 +32,7 @@ var routes = module.exports = Object.create({
 
 , end: function(){
     return function( req, res ){
-      res.write('<script src="/dist/app.js"></script>');
+      res.write(`<script src="/dist/${pkg.version}/app.js"></script>`);
       res.end('</div></body></html>');
     }
   }

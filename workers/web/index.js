@@ -9,15 +9,34 @@ var config    = require('../../config');
 var utils     = require('../../lib/utils');
 var logger    = require('../../lib/logger').create('Web');
 
+const concurrency = process.env.WEB_CONCURRENCY || require('os').cpus().length;
+
 if ( cluster.isMaster ){
-  utils.range( config.http.concurrency )
+  utils.range( concurrency )
     .forEach( function(){
-      cluster.fork()
+      cluster.fork();
     });
+
+  cluster.on( 'exit', function( worker, code, signal ){
+    cluster.fork();
+  });
 } else {
-  require('../../server')({
+  logger = logger.create(`Worker-${cluster.worker.id}`);
+
+  var server = require('../../server')({
     logger: logger
-  }).listen( config.http.port, function( error ){
+  });
+
+  process.on('uncaughtException', function( exception ){
+    logger.error('Uncaught exception, restarting worker', {
+      message: exception.message
+    , stack: exception.stack
+    });
+
+    cluster.worker.kill();
+  });
+
+  server.listen( config.http.port, function( error, done ){
     if ( error ) return done( error );
 
     logger.info( 'Server started on port ' +  config.http.port );

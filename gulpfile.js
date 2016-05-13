@@ -29,7 +29,7 @@ scripts.lint = scripts.public.concat([
 , 'client/*.js', 'client/**/*.js'
 ]);
 
-gulp.task( 'compile-frontend-js', ['alias-modules', 'assets:create-dist-dir'], function(){
+gulp.task( 'compile-frontend-js', ['assets:create-dist-dir'], function(){
   var b = require('browserify')( './client/app.js', utils.extend(
       require('browserify-incremental').args, { debug: true }
     ))
@@ -39,13 +39,13 @@ gulp.task( 'compile-frontend-js', ['alias-modules', 'assets:create-dist-dir'], f
 
   return b
     .bundle()
-    .pipe( fs.createWriteStream() );
+    .pipe( fs.createWriteStream(`./public/dist/${pkg.version}/app.js`) );
 });
 
 gulp.task( 'less', ['assets:create-dist-dir'], function(){
   return gulp.src('less/app.less')
     .pipe( require('gulp-less')() )
-    .pipe( gulp.dest('public/dist') );
+    .pipe( gulp.dest(`public/dist/${pkg.version}/`) );
 });
 
 gulp.task( 'watch', function(){
@@ -54,7 +54,7 @@ gulp.task( 'watch', function(){
   gulp.watch( ['db/scripts/functions.sql'], ['db:scripts'] );
 });
 
-gulp.task( 'server', ['alias-modules'], function( done ){
+gulp.task( 'server', function( done ){
   require('./server')
     ({ logger: logger })
     .listen( config.http.port, function( error ){
@@ -66,10 +66,6 @@ gulp.task( 'server', ['alias-modules'], function( done ){
 
       done();
     });
-});
-
-gulp.task( 'alias-modules', function(){
-  require('alias-module')( 'config', path.join( __dirname, '/config/index.js' ) );
 });
 
 gulp.task( 'db:create', function( done ){

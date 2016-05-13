@@ -5,7 +5,7 @@ export default class App extends React.Component {
     return (
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="/dist/app.css" />
+        <link rel="stylesheet" href={`/dist/${this.props.version}/app.css`} />
         <script dangerouslySetInnerHTML={{__html: 'window.__data={};'}} />
       </head>
     );
