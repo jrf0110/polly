@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha -R spec test/test.js",
-    "prestart": "gulp build",
+    "prestart": "gulp build && gulp db:changes",
     "start": "node workers/web"
   },
   "author": "John Fawcett",
