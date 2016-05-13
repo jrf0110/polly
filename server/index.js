@@ -6,9 +6,9 @@ var routes          = require('./routes');
 module.exports = function( options ){
   var app = express();
 
+  app.use( m.logger({ logger: options.logger }) );
   app.use( require('body-parser').json() );
   app.use( require('body-parser').urlencoded({ extended: true }) );
-  app.use( m.logger({ logger: options.logger }) );
   app.use( m.db.init() );
 
   app.locals.config = config;

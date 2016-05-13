@@ -1,14 +1,12 @@
 var errors = require('../../lib/errors');
 
 module.exports = function(){
-  return function( error, req, res ){
+  return function( error, req, res, next ){
     if ( error instanceof Error ){
       console.error( error );
     } else {
       console.log( error );
     }
-
-    req.logger.error( error );
 
     if ( !error.httpStatus ){
       error = errors.http.INTERNAL_SERVER_ERROR( null, error );
