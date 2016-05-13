@@ -1,5 +1,5 @@
 import React from 'react';
-import config from 'config';
+import config from '../config';
 import PollActions from '../actions/poll';
 import CheckBox from './checkbox';
 import dispatcher from '../lib/dispatcher';
