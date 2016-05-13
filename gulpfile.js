@@ -42,7 +42,7 @@ gulp.task( 'compile-frontend-js', ['alias-modules', 'assets:create-dist-dir'], f
     .pipe( fs.createWriteStream() );
 });
 
-gulp.task( 'less', ['assets:create-dist-dir'] function(){
+gulp.task( 'less', ['assets:create-dist-dir'], function(){
   return gulp.src('less/app.less')
     .pipe( require('gulp-less')() )
     .pipe( gulp.dest('public/dist') );
